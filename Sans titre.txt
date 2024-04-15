@@ -1,0 +1,24 @@
+composite, composite pour tout meme toolbar?
+memento
+command
+prototype
+observer mais bloquer observer pour drag and drop si xshape dans menu
+visiteur pas bien pour l'interface mais pas inutile dans les xshape ?
+chaine de responsabilité avec select en haut
+
+
+pas d'abstract factory
+
+
+Scene
+    -CommandBar
+    -ToolBar
+    -Canva
+
+commandManager a son propre thread
+commandManager pas besoin d'observer ?
+
+save-> serializer
+
+
+rapport + architecture (diapos) + demo 1min30 min max (davinci obs?)

@@ -4,12 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 class GUIHelper {
     public static void showOnFrame(JComponent component, String frameName) {
         JFrame frame = new JFrame(frameName);
+        frame.add(new AwtToolBar(), BorderLayout.WEST);
         WindowAdapter wa = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
