@@ -1,15 +1,19 @@
 package xshape;
 
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 
-public abstract class XShape {
+import javax.swing.JPanel;
+
+public class JCanvas extends JPanel
+{
     private ShapeFactory _factory = null;
     Shape[] _shapes = null;
 
-    //method factory to delegate instanciation of Shapefactory to subclass
-    protected abstract ShapeFactory createFactory();
-    //Handler to start the GUI
-    abstract void run();
+    public JCanvas() {
+        _factory = new ShapeFactory();
+        createScene();
+    }
 
     private void createScene() {
         Shape shape = _factory.createRectangle(100, 100, 50, 50);
@@ -19,14 +23,13 @@ public abstract class XShape {
         _shapes = tmp;
     }
 
-    public void draw() {
-        if (_shapes == null) {
-            _factory = createFactory();
-            createScene();
-        }
-
+    @Override
+    public void paint(Graphics g) 
+    {
+        super.paint(g);
+        AwtContext.instance().graphics(g);
+        
         for (Shape s : _shapes)
             s.draw();
     }
-
 }

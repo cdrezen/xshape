@@ -17,8 +17,15 @@ Scene
 
 commandManager a son propre thread
 commandManager pas besoin d'observer ?
+editeur: popup qui bloque tout
+    une command edit pa sune command pour tout
+    1 memento pour pouvoir cancel/undo
+    + 1 memento pour pouvoir redo sans rouvrir l'editeur
+
 
 save-> serializer
 
 
 rapport + architecture (diapos) + demo 1min30 min max (davinci obs?)
+
+
