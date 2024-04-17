@@ -1,12 +1,8 @@
 package xshape;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
-public interface Shape{
-	void draw();
-	Point2D size();
-	Shape size(Point2D vec);
-	Point2D position();
-	Shape position(Point2D position);
-	Shape translate(Point2D vec);
+public interface Shape
+{
+	Shape translate(Point vec);
 }

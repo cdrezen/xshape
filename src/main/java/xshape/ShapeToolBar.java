@@ -19,9 +19,9 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.JSlider;
 
-public class AwtToolBar extends JToolBar 
+public class ShapeToolBar extends JToolBar 
 {
-    public AwtToolBar()
+    public ShapeToolBar()
     {
         super();
         this.setOrientation(VERTICAL);
@@ -43,7 +43,7 @@ public class AwtToolBar extends JToolBar
         this.add(new JButton(UIManager.getIcon("OptionPane.errorIcon")));
         this.add(new JButton(UIManager.getIcon("OptionPane.warningIcon")));
         this.add(new JButton(UIManager.getIcon("FileView.directoryIcon")));
-        this.add(new JButton(UIManager.getIcon("CheckBoxMenuItem.checkIcon")));
+        //this.add(new JButton(UIManager.getIcon("CheckBoxMenuItem.checkIcon")));
         //this.setMaximumSize(new Dimension(rectBtn.getMaximumSize().width, getMaximumSize().height));
 
         JSlider szSlider = new JSlider(JSlider.HORIZONTAL,0,50,10);

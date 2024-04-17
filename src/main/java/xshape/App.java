@@ -18,12 +18,13 @@ public class App {
         };
         frame.addWindowListener(wa);
 
-        JCanvas jc = new JCanvas();
-        jc.setBackground(Color.WHITE);
-        jc.setPreferredSize(new Dimension(500, 500));
-        frame.getContentPane().add(jc);
-        frame.add(new AwtToolBar(), BorderLayout.WEST);
-
+        Whiteboard c = new Whiteboard();
+        c.setBackground(Color.WHITE);
+        c.setPreferredSize(new Dimension(500, 500));
+        frame.setLayout(new BorderLayout());
+        //frame.getContentPane().add(c);
+        frame.getContentPane().add(c, BorderLayout.CENTER);
+        frame.add(new ShapeToolBar(), BorderLayout.WEST);
         frame.pack();
         frame.setVisible(true);
     }

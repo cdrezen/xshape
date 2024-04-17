@@ -1,37 +1,49 @@
 package xshape;
 
-import java.awt.geom.Point2D;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
-public abstract class Rectangle implements Shape {
-    private Point2D _pos  = new Point2D.Double(0, 0);
-    private Point2D _size = new Point2D.Double(1, 1);
+public class Rectangle extends Canvas implements Shape 
+{
+    private Point pos = new Point(0, 0);
+    private Dimension sz = new Dimension(0, 0);
+
+    public Rectangle(int posX, int posY, int height, int width) 
+    {
+        super();
+        this.setBounds(posX, posY, width, height);
+        this.setMaximumSize(this.getSize());
+        this.setMinimumSize(this.getSize());
+        pos = new Point(posX, posY);
+        sz = new Dimension(width, height);
+	}
+
+    @Override
+    public Shape translate(Point vec) {
+        this.setLocation(this.getX() + vec.x, this.getY() + vec.y);
+        return this;
+    }
+
+    @Override
+    public void paint(Graphics g) 
+    {
+        super.paint(g);
+        
+        Color c = g.getColor();
+        g.setColor(Color.yellow);
+
+        g.fillRect(pos.x,
+                    pos.y,        
+                    sz.width,
+                    sz.height);
+
+        g.setColor(c);
+    }
+
     
-    @Override
-    public Point2D size() {
-        return (Point2D) _size.clone();
-    }
-
-    @Override
-    public Shape size(Point2D vec) {
-        _size = (Point2D) vec.clone();
-        return this;
-    }
-
-    @Override
-    public Point2D position() {
-        return (Point2D) _pos.clone();
-    }
-
-    @Override
-    public Shape position(Point2D position) {
-        _pos = (Point2D) position.clone();
-        return this;
-    }
-
-    @Override
-    public Shape translate(Point2D vec) {
-        _pos.setLocation(_pos.getX() + vec.getX(),
-                _pos.getY() + vec.getY());
-        return this;
-    }
 }
