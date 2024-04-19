@@ -66,7 +66,7 @@ public class Rectangle implements Shape
         Color c = g.getColor();
         g.setColor(Color.magenta);
 
-        final int margin = 2;
+        final int margin = 3;
 
         g.drawRect(pos.x - margin,
         pos.y - margin,        
@@ -74,5 +74,10 @@ public class Rectangle implements Shape
         sz.height + margin + margin);
         
         g.setColor(c);
+    }
+
+    public Shape clone()
+    {
+        return new Rectangle(pos.x, pos.y, sz.width, sz.height);
     }
 }

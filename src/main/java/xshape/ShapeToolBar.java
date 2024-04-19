@@ -18,6 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
+
+import xshape.DragDrop.ShapeIconTransferHandler;
+
 import javax.swing.JSlider;
 
 public class ShapeToolBar extends JToolBar 
@@ -38,7 +41,7 @@ public class ShapeToolBar extends JToolBar
         //this.setLayout(new GridLayout(0, 1));
         Rectangle shape = new ShapeFactory().createRectangle(4, 4, 50, 50);
         JButton rectBtn = new JButton(new ShapeIcon(shape));//("CheckBox.icon")));
-        rectBtn.setTransferHandler(new TransferHandler("icon"));
+        rectBtn.setTransferHandler(new ShapeIconTransferHandler());
         rectBtn.addMouseMotionListener(mouseDragAdapter);
         this.add(rectBtn);
         

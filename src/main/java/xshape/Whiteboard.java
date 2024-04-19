@@ -2,26 +2,27 @@ package xshape;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Icon;
 import javax.swing.JPanel;
-import javax.swing.TransferHandler;
+import javax.swing.SwingUtilities;
 
-public class Whiteboard extends JPanel// implements DropTargetListener
+import xshape.DragDrop.ShapeIconTransferHandler;
+
+public class Whiteboard extends JPanel
 {
     private ShapeFactory _factory = null;
     Shape[] _shapes = null;
     Shape selectedShape = null;
-    Icon icontest = null;
 
     public Whiteboard() {
         this.addMouseListener(mousePressAdapter);
         this.addMouseMotionListener(mouseDragAdapter);
 
-        this.setTransferHandler(new TransferHandler("icon"));
+        this.setTransferHandler(new ShapeIconTransferHandler());
         //DropTarget dt = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, this, true, null);
         //this.setDropTarget( dt );
 
@@ -57,7 +58,7 @@ public class Whiteboard extends JPanel// implements DropTargetListener
         {
             if (selectedShape == null) return;
             Shape shape = selectedShape;
-
+            
             shape.setPos(e.getX(), e.getY());
             System.out.println("drag to: " + e.getX() + " " + e.getY());
             ((Whiteboard)e.getSource()).repaint();
@@ -75,21 +76,25 @@ public class Whiteboard extends JPanel// implements DropTargetListener
         _shapes = tmp;
     }
 
-    // @Override
-    // public void drop(DropTargetDropEvent dtde) 
-    // {
-    //     System.out.println(dtde.getSource());
-    //     //throw new UnsupportedOperationException("Unimplemented method 'drop'");
-    //     try {           
-    //         //Icon shapeIcon  = (Icon) dtde.getTransferable();
-    //         //icontest = shapeIcon;
-    //         dtde.dropComplete( true );
-    //         repaint();
-    //     } 
-    //     catch( Exception e ) {
-    //         e.printStackTrace();
-    //     }
-    // }
+    public void addShape(Shape shape)
+    {
+        Shape[] copy = _shapes.clone();
+        _shapes = new Shape[copy.length + 1];
+
+        for (int i = 0; i < copy.length; i ++) {
+            _shapes[i] = copy[i];
+        }
+
+        Point point = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(point, this);
+        shape.setPos(point.x, point.y);
+
+        _shapes[_shapes.length - 1] = shape;
+
+        System.out.println("new shape dropped.");
+
+        this.repaint();
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -99,6 +104,5 @@ public class Whiteboard extends JPanel// implements DropTargetListener
             s.draw(g);
 
         if (selectedShape != null) selectedShape.drawSelectionRect(g);
-        if(icontest != null) icontest.paintIcon(this, g, 100, 100);
     }
 }

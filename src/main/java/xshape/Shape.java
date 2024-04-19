@@ -13,4 +13,5 @@ public interface Shape
 	void draw(Graphics g);
 	void drawAt(Graphics g, int x, int y);
 	void drawSelectionRect(Graphics g);
+	Shape clone();
 }
