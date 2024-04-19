@@ -30,6 +30,11 @@ public class Rectangle implements Shape
         pos.y = posY;
     }
 
+    @Override
+    public Dimension getSize() {
+        return sz;
+    }
+
     public boolean isIn(int x, int y)
     {
         java.awt.Rectangle r = new java.awt.Rectangle(pos, sz);
@@ -43,13 +48,15 @@ public class Rectangle implements Shape
 
     public void draw(Graphics g) 
     {
+        drawAt(g, pos.x, pos.y);
+    }
+
+    @Override
+    public void drawAt(Graphics g, int x, int y) {
         Color c = g.getColor();
         g.setColor(Color.yellow);
 
-        g.fillRect(pos.x,
-                    pos.y,        
-                    sz.width,
-                    sz.height);
+        g.fillRect(x, y, sz.width, sz.height);
 
         g.setColor(c);
     }
@@ -68,6 +75,4 @@ public class Rectangle implements Shape
         
         g.setColor(c);
     }
-
-    
 }

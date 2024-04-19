@@ -3,6 +3,7 @@ package xshape;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,12 +35,13 @@ public class ShapeToolBar extends JToolBar
                 handle.exportAsDrag(button, e, TransferHandler.COPY);
             }
         };
-
-        JButton rectBtn = new JButton(UIManager.getIcon("OptionPane.questionIcon"));//("CheckBox.icon")));
+        //this.setLayout(new GridLayout(0, 1));
+        Rectangle shape = new ShapeFactory().createRectangle(4, 4, 50, 50);
+        JButton rectBtn = new JButton(new ShapeIcon(shape));//("CheckBox.icon")));
         rectBtn.setTransferHandler(new TransferHandler("icon"));
         rectBtn.addMouseMotionListener(mouseDragAdapter);
-        
         this.add(rectBtn);
+        
         this.add(new JButton(UIManager.getIcon("OptionPane.errorIcon")));
         this.add(new JButton(UIManager.getIcon("OptionPane.warningIcon")));
         this.add(new JButton(UIManager.getIcon("FileView.directoryIcon")));
