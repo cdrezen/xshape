@@ -1,39 +1,48 @@
 package xshape;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
-public class Rectangle extends Canvas implements Shape 
+public class Rectangle implements Shape 
 {
     private Point pos = new Point(0, 0);
     private Dimension sz = new Dimension(0, 0);
+    //private boolean selected = false;
 
     public Rectangle(int posX, int posY, int height, int width) 
     {
-        super();
-        this.setBounds(posX, posY, width, height);
-        this.setMaximumSize(this.getSize());
-        this.setMinimumSize(this.getSize());
+        //super();
         pos = new Point(posX, posY);
         sz = new Dimension(width, height);
 	}
 
     @Override
     public Shape translate(Point vec) {
-        this.setLocation(this.getX() + vec.x, this.getY() + vec.y);
+        setPos(pos.x + vec.x, pos.y + vec.y);
         return this;
     }
 
-    @Override
-    public void paint(Graphics g) 
+    public void setPos(int posX, int posY)
     {
-        super.paint(g);
-        
+        pos.x = posX;
+        pos.y = posY;
+    }
+
+    public boolean isIn(int x, int y)
+    {
+        java.awt.Rectangle r = new java.awt.Rectangle(pos, sz);
+        return r.contains(x, y);
+    }
+
+    // public void setSelected(boolean value)
+    // {
+    //     selected = value;
+    // }
+
+    public void draw(Graphics g) 
+    {
         Color c = g.getColor();
         g.setColor(Color.yellow);
 
@@ -42,6 +51,21 @@ public class Rectangle extends Canvas implements Shape
                     sz.width,
                     sz.height);
 
+        g.setColor(c);
+    }
+
+    public void drawSelectionRect(Graphics g)
+    {
+        Color c = g.getColor();
+        g.setColor(Color.magenta);
+
+        final int margin = 2;
+
+        g.drawRect(pos.x - margin,
+        pos.y - margin,        
+        sz.width + margin + margin,
+        sz.height + margin + margin);
+        
         g.setColor(c);
     }
 
