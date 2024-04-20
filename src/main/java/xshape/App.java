@@ -25,8 +25,8 @@ public class App {
         //frame.getContentPane().add(c);
         frame.getContentPane().add(c, BorderLayout.CENTER);
         frame.add(new ShapeToolBar(), BorderLayout.WEST);
+        frame.add(new MenuBar(), BorderLayout.NORTH);
         frame.pack();
         frame.setVisible(true);
     }
-
 }

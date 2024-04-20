@@ -19,24 +19,27 @@ public class ShapeIconTransferHandler extends TransferHandler {
     }
 
     @Override //appelée au drop
-    public boolean importData(TransferSupport support) {
-        boolean accept = false;
-        if (canImport(support)) {
-            try {
-                Transferable t = support.getTransferable();
-                Object value = t.getTransferData(ShapeIconTransferable.SHAPEICON_FLAVOR);
-                if (value instanceof ShapeIcon) {
-                    Component component = support.getComponent();
-                    if (component instanceof Whiteboard) {
-                        ((Whiteboard)component).addShape(((ShapeIcon)value).getShape().clone());
-                        accept = true;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    public boolean importData(TransferSupport support) 
+    {
+        if (!canImport(support)) return false;
+        
+        try
+        {
+            Object value = support.getTransferable().getTransferData(ShapeIconTransferable.SHAPEICON_FLAVOR);
+            if (!(value instanceof ShapeIcon)) return false;
+
+            Component component = support.getComponent();
+
+            if (component instanceof Whiteboard) {
+                ((Whiteboard)component).addShape(((ShapeIcon)value).getShape().clone());
+                return true;
             }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
         }
-        return accept;
+
+        return false;
     }
 
     @Override
@@ -47,11 +50,19 @@ public class ShapeIconTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
         Transferable t = null;
-        if (c instanceof JButton) {
-            
+        if (c instanceof JButton) 
+        {    
             JButton button = (JButton)c;
-            ShapeIcon icon = (ShapeIcon)button.getIcon();
-            t = new ShapeIconTransferable(icon);
+
+            try 
+            {
+                ShapeIcon icon = (ShapeIcon)button.getIcon();
+                t = new ShapeIconTransferable(icon);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         return t;
     }
