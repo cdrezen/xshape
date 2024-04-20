@@ -24,6 +24,11 @@ public class Rectangle implements Shape
         return this;
     }
 
+    @Override
+    public Point getPos() {
+        return pos;
+    }
+
     public void setPos(int posX, int posY)
     {
         pos.x = posX;
@@ -33,6 +38,12 @@ public class Rectangle implements Shape
     @Override
     public Dimension getSize() {
         return sz;
+    }
+
+    @Override
+    public void setSize(int width, int height) {
+        sz.width = width;
+        sz.height = height;
     }
 
     public boolean isIn(int x, int y)

@@ -96,6 +96,11 @@ public class Whiteboard extends JPanel
         this.repaint();
     }
 
+    public Shape getSelection()
+    {
+        return selectedShape;
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);

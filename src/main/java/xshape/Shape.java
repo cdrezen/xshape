@@ -7,8 +7,10 @@ import java.awt.Point;
 public interface Shape
 {
 	Shape translate(Point vec);
+	Point getPos();
 	void setPos(int posX, int posY);
 	Dimension getSize();
+	void setSize(int width, int height);
 	boolean isIn(int x, int y);
 	void draw(Graphics g);
 	void drawAt(Graphics g, int x, int y);
