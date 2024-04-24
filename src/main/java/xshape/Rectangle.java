@@ -91,4 +91,16 @@ public class Rectangle implements Shape
     {
         return new Rectangle(pos.x, pos.y, sz.width, sz.height);
     }
+
+    // @Override
+    // public void add(Shape s) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'add'");
+    // }
+
+    // @Override
+    // public PrototypeShape translateP(Point vec) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'translateP'");
+    // }
 }
