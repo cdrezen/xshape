@@ -1,8 +1,10 @@
 package xshape.DragDrop;
 
 import java.awt.Component;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
+import java.awt.event.InputEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -17,8 +19,8 @@ public class ShapeTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport support) {
-        return (support.getComponent() instanceof Whiteboard || support.getComponent() instanceof ShapeToolBar) 
-                 && support.isDataFlavorSupported(ShapeTransferable.SHAPE_FLAVOR);
+        return (support.getComponent() instanceof Whiteboard) && support.isDataFlavorSupported(ShapeTransferable.SHAPE_ICON_FLAVOR)
+        || (support.getComponent() instanceof ShapeToolBar && support.isDataFlavorSupported(ShapeTransferable.SHAPE_FLAVOR));
     }
 
     @Override //appelée au drop
@@ -28,7 +30,9 @@ public class ShapeTransferHandler extends TransferHandler {
         
         try
         {
-            Object value = support.getTransferable().getTransferData(ShapeTransferable.SHAPE_FLAVOR);
+            DataFlavor flavor = support.getTransferable().getTransferDataFlavors()[0];
+
+            Object value = support.getTransferable().getTransferData(flavor);
             if (!(value instanceof Shape)) return false;
 
             Component component = support.getComponent();
@@ -71,7 +75,7 @@ public class ShapeTransferHandler extends TransferHandler {
             try 
             {
                 ShapeIcon icon = (ShapeIcon)button.getIcon();
-                transferable = new ShapeTransferable(icon);
+                transferable = new ShapeTransferable(icon);//SHAPE_ICON_FLAVOR
             }
             catch (Exception e)
             {
@@ -90,6 +94,7 @@ public class ShapeTransferHandler extends TransferHandler {
                 transferable = new ShapeTransferable(selectedShape);
             }
         }
+
         return transferable;
     }
 
