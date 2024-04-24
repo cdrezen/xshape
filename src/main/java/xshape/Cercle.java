@@ -59,7 +59,7 @@ public class Cercle implements Shape {
     // }
 
     public Shape clone() {
-        throw new UnsupportedOperationException("Unimplemented method 'clone'");
+        return new Cercle(_c.clone());
     }
 
 

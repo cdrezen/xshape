@@ -4,28 +4,30 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 
-import xshape.DragDrop.ShapeIconTransferHandler;
+import xshape.DragDrop.ShapeTransferHandler;
 
 public class Whiteboard extends JPanel
 {
     private ShapeFactory _factory = null;
     Shape[] _shapes = null;
     Shape selectedShape = null;
+    boolean modifierKeyIsDown = false;
 
     public Whiteboard() {
         this.addMouseListener(mousePressAdapter);
         this.addMouseMotionListener(mouseDragAdapter);
 
-        this.setTransferHandler(new ShapeIconTransferHandler());
-        //DropTarget dt = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, this, true, null);
-        //this.setDropTarget( dt );
-
+        this.setTransferHandler(new ShapeTransferHandler());
         _factory = new ShapeFactory();
         createScene();
     }
@@ -61,18 +63,29 @@ public class Whiteboard extends JPanel
             
             shape.setPos(e.getX(), e.getY());
             System.out.println("drag to: " + e.getX() + " " + e.getY());
-            ((Whiteboard)e.getSource()).repaint();
+
+            Whiteboard canvas = (Whiteboard)e.getSource();
+
+            if(e.isControlDown())
+            {
+                TransferHandler handle = canvas.getTransferHandler();
+                handle.exportAsDrag(canvas, e, TransferHandler.COPY);
+            }
+            
+            canvas.repaint();
         }
 
     };
 
     private void createScene() {
-        Shape shape = _factory.createRectangle(100, 100, 50, 50);
-        Shape shape1 = _factory.createRectangle(250, 250, 75, 20);
+        Shape shape = _factory.createRectangle(250, 250, 75, 25);
+        Shape shape1 = _factory.createCircle(235, 230, 30, 30);
+        Shape shape2 = _factory.createCircle(260, 230, 30, 30);
+        Shape shape3 = _factory.createCircle(250, 310, 25, 25);
 
-        shape.translate(new Point(100, 50));
+        //shape.translate(new Point(100, 50));
 
-        Shape[] tmp = { shape, shape1 };
+        Shape[] tmp = { shape, shape1, shape2, shape3 };
         _shapes = tmp;
     }
 

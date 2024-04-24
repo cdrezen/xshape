@@ -3,6 +3,8 @@ package xshape;
 import java.awt.*;
 import javax.swing.*;
 
+import xshape.DragDrop.ShapeTransferHandler;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;

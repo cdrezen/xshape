@@ -13,18 +13,43 @@ import javax.swing.JToolBar;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
-import xshape.DragDrop.ShapeIconTransferHandler;
+import xshape.DragDrop.ShapeTransferHandler;
 
-import javax.swing.JSlider;
-
-public class ShapeToolBar extends JToolBar 
+public class ShapeToolBar extends JToolBar
 {
     public ShapeToolBar()
     {
         super();
         this.setOrientation(VERTICAL);
 
-        MouseAdapter mouseDragAdapter = new MouseAdapter() {
+
+        this.setLayout(new GridLayout(8, 1));
+
+        ShapeFactory shapeFactory = new ShapeFactory();
+
+        //bouttons avec shape comme icone
+        this.add(shapeFactory.createRectangle(4, 4, 50, 50));
+        this.add(shapeFactory.createCircle(20, 20, 50, 50));
+
+        JButton delButton = buildResButton("Delete.png", null);
+        this.add(delButton);
+
+        this.add(buildResButton("Composition.png", null), 1);
+
+        this.setTransferHandler(new ShapeTransferHandler());
+    }
+
+    //ajouter un Shape comme boutton
+    public void add(Shape shape)
+    {
+        System.out.println("added button");
+        JButton btn = buildShapeButton(shape);
+        this.add(btn);
+    }
+
+    private JButton buildShapeButton(Shape shape)
+    {
+        final MouseAdapter mouseDragAdapter = new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 JButton button = (JButton) e.getSource();
@@ -33,30 +58,16 @@ public class ShapeToolBar extends JToolBar
             }
         };
 
-        this.setLayout(new GridLayout(8, 1));
-        //shape comme icone
-        Rectangle shape = new ShapeFactory().createRectangle(4, 4, 50, 50);
-        JButton rectBtn = new JButton(new ShapeIcon(shape));
+        JButton btn = new JButton(new ShapeIcon(shape));
 
         //dragndrop
-        rectBtn.setTransferHandler(new ShapeIconTransferHandler());
-        rectBtn.addMouseMotionListener(mouseDragAdapter);
+        btn.setTransferHandler(new ShapeTransferHandler());
+        btn.addMouseMotionListener(mouseDragAdapter);
 
-        this.add(rectBtn);
-
-        JButton delButton = createResButton("Delete.png", null);
-        this.add(delButton);
-
-        this.add(createResButton("Composition.png", null), 1);
-
-        //this.add(new JButton(UIManager.getIcon("FileView.directoryIcon")));
-
-        // JSlider szSlider = new JSlider(JSlider.HORIZONTAL,0,50,10);
-        // szSlider.setSize(rectBtn.getSize());
-        // this.add(szSlider);
+        return btn;
     }
 
-    private JButton createResButton(String filename, ActionListener actionListener)
+    private JButton buildResButton(String filename, ActionListener actionListener)
     {
         ImageIcon icon = null;
 

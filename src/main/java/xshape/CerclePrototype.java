@@ -23,8 +23,7 @@ public class CerclePrototype implements PrototypeShape {
 
     @Override
     public PrototypeShape clone(){
-        return this.clone();
-        // return new CerclePrototype((int)x,(int)y,(int)w,(int)h);
+        return new CerclePrototype((int)x,(int)y,(int)w,(int)h);
     }
 
 
@@ -55,21 +54,19 @@ public class CerclePrototype implements PrototypeShape {
         Color c = g.getColor();
         g.setColor(Color.yellow);
 
-        g.fillRect(x, y, sz.width, sz.height);
+        g.fillOval(x, y, sz.width, sz.height);
 
         g.setColor(c);
     }
 
     public void drawSelectionRect(Graphics g)
     {
-        Graphics2D g2 = (Graphics2D) g;
         Color c = g.getColor();
         g.setColor(Color.magenta);
 
         final int margin = 3;
         final int margin2 = 2 * margin;
-        Ellipse2D ellipse = new Ellipse2D.Double(5 - margin, 10 - margin, 100 - margin2, - margin2);
-        g2.draw(ellipse);
+        g.drawOval((int)x - margin, (int)y - margin, sz.width + margin2, sz.height + margin2);
         
         g.setColor(c);
     }
