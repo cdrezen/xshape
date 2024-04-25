@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
-import java.awt.event.InputEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -19,8 +18,9 @@ public class ShapeTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport support) {
-        return (support.getComponent() instanceof Whiteboard) && support.isDataFlavorSupported(ShapeTransferable.SHAPE_ICON_FLAVOR)
-        || (support.getComponent() instanceof ShapeToolBar && support.isDataFlavorSupported(ShapeTransferable.SHAPE_FLAVOR));
+        Component component = support.getComponent();
+        return (component instanceof Whiteboard && support.isDataFlavorSupported(ShapeTransferable.SHAPE_ICON_FLAVOR))
+        || ((component instanceof ShapeToolBar || component instanceof JButton) && support.isDataFlavorSupported(ShapeTransferable.SHAPE_FLAVOR));
     }
 
     @Override //appelée au drop
@@ -47,6 +47,13 @@ public class ShapeTransferHandler extends TransferHandler {
             if(component instanceof ShapeToolBar)
             {
                 ((ShapeToolBar)component).add(((Shape)value).clone());
+                return true;
+            }
+
+            //drop from Whiteboard to JButton in ShapeToolBar
+            if(component instanceof JButton)
+            {
+                ((ShapeToolBar)component.getParent()).add(((Shape)value).clone());
                 return true;
             }
         } 

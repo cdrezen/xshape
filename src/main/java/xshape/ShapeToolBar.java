@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.JDBCType;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,10 +15,13 @@ import javax.swing.JToolBar;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
+import xshape.DragDrop.DeleteShapeTransferHandler;
 import xshape.DragDrop.ShapeTransferHandler;
 
 public class ShapeToolBar extends JToolBar
 {
+    ArrayList<JButton> buttons;
+
     public ShapeToolBar()
     {
         super();
@@ -27,14 +32,19 @@ public class ShapeToolBar extends JToolBar
 
         ShapeFactory shapeFactory = new ShapeFactory();
 
+        buttons = new ArrayList<>();
+
         //bouttons avec shape comme icone
         this.add(shapeFactory.createRectangle(4, 4, 50, 50));
         this.add(shapeFactory.createCircle(20, 20, 50, 50));
 
+
         JButton delButton = buildResButton("Delete.png", null);
+        delButton.setTransferHandler(new DeleteShapeTransferHandler());
         this.add(delButton);
 
-        this.add(buildResButton("Composition.png", null), 1);
+
+        //this.add(buildResButton("Composition.png", null), 1);
 
         this.setTransferHandler(new ShapeTransferHandler());
     }
@@ -44,7 +54,30 @@ public class ShapeToolBar extends JToolBar
     {
         System.out.println("added button");
         JButton btn = buildShapeButton(shape);
-        this.add(btn);
+        buttons.add(btn);
+        this.add(btn, this.getComponentCount() - 1);//poubelle doit toujours etre en bas
+    }
+
+    public void remove(Shape shape)
+    {
+        JButton foundBtn = null;
+        for (JButton btn : buttons) 
+        {
+            if(((ShapeIcon)btn.getIcon()).getShape() == shape)
+            {
+                foundBtn =btn;
+                break;
+            }
+        }
+
+        if(foundBtn == null) return;
+
+        System.out.println("found btn");
+
+        this.remove(foundBtn);
+        buttons.remove(foundBtn);
+        this.revalidate();
+        this.repaint();
     }
 
     private JButton buildShapeButton(Shape shape)

@@ -48,6 +48,7 @@ public class Rectangle implements Shape
 
     public boolean isIn(int x, int y)
     {
+        //TODO: ne pas utiliser le rectangle awt
         java.awt.Rectangle r = new java.awt.Rectangle(pos, sz);
         return r.contains(x, y);
     }
