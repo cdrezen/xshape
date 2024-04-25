@@ -30,8 +30,8 @@ public class ShapeGroup extends ShapeAbstact
     public void setPos(int posX, int posY) {
         // TODO Auto-generated method stub
         for (Shape shape : components) {
-            //shape.translate(new Point(Math.abs(this.position.x - posX), Math.abs(this.position.y - posY)));
-            shape.setPos(posX, posY);
+            shape.setPos(Math.abs(this.position.x - shape.position().x) + posX,
+                         Math.abs(this.position.y - shape.position().y) + posY);
         }
         super.setPos(posX, posY);
     }
@@ -41,9 +41,10 @@ public class ShapeGroup extends ShapeAbstact
         // TODO Auto-generated method stub
         for (Shape shape : components) {
             //shape.translate(new Point(Math.abs(this.position.x - posX), Math.abs(this.position.y - posY)));
-            shape.setCenterToPos(posX, posY);
+            shape.setCenterToPos(Math.abs(this.position.x - shape.position().x) / 2 + posX,
+                                Math.abs(this.position.y - shape.position().y) / 2 + posY);
         }
-        super.setPos(posX, posY);
+        super.setCenterToPos(posX, posY);
     }
 
     @Override
@@ -93,8 +94,8 @@ public class ShapeGroup extends ShapeAbstact
             Dimension sz = shape.size();
             minX = Math.min(minX, pos.x);
             minY = Math.min(minY, pos.y);
-            maxW = Math.max(maxW, pos.x + sz.width); 
-            maxH = Math.max(maxW, pos.y + sz.height);
+            maxW = Math.max(maxW, Math.abs(pos.x - this.position.x) + sz.width); 
+            maxH = Math.max(maxH, Math.abs(pos.y - this.position.y) + sz.height);
         }
 
         this.position = new Point(minX, minY);
@@ -157,6 +158,7 @@ public class ShapeGroup extends ShapeAbstact
         for (Shape shape : components) {
             shape.drawSelection(g);
         }
+        g.drawRect(position.x, position.y, size.width, size.height);
     }
 
     @Override
@@ -166,9 +168,14 @@ public class ShapeGroup extends ShapeAbstact
         {
             this.position = component.position();
             this.size = component.size();
+            this.components.add(component);
+        }
+        else
+        {
+            this.components.add(component);
+            recalculateBounds();
         }
 
-        this.components.add(component);
         //onPositionUpdate(component.position());
     }
 

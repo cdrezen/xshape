@@ -100,7 +100,9 @@ public class Whiteboard extends JPanel
 
             //if(!_selectedShapes.contains(e.getX(), e.getY())) return;//prevent drag from anywhere
 
-            _selectedShapes.setCenterToPos(e.getX(), e.getY());
+            //_selectedShapes.setCenterToPos(e.getX(), e.getY());
+            _selectedShapes.setPos(e.getX(), e.getY());
+            
             System.out.println("drag to: " + e.getX() + " " + e.getY());
             
             canvas.repaint();
