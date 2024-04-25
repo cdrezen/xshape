@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
+import xshape.Model.Shape;
+
 public class ShapeIcon implements Icon {
 
     private Shape shape;
@@ -20,12 +22,12 @@ public class ShapeIcon implements Icon {
 
     @Override
     public int getIconWidth() {
-        return shape.getSize().width;
+        return shape.size().width;
     }
 
     @Override
     public int getIconHeight() {
-        return shape.getSize().height;
+        return shape.size().height;
     }
 
     public Shape getShape()

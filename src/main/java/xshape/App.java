@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import xshape.DragDrop.ShapeTransferHandler;
+import xshape.Model.Shape;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

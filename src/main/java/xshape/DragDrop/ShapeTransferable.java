@@ -6,7 +6,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 import xshape.ShapeIcon;
-import xshape.Shape;
+import xshape.Model.Shape;
 
 public class ShapeTransferable implements Transferable {
 

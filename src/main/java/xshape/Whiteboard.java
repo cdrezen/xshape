@@ -1,12 +1,10 @@
 package xshape;
 
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,14 +15,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import xshape.DragDrop.ShapeTransferHandler;
+import xshape.Model.Rectangle;
+import xshape.Model.Shape;
+import xshape.Model.ShapeFactory;
+import xshape.Model.ShapeGroup;
 
 public class Whiteboard extends JPanel
 {
     private ShapeFactory _factory = null;
-    Shape[] _shapes = null;
-    Shape selectedShape = null;
-    Shape selectionRect = null;
-    boolean modifierKeyIsDown = false;
+    ShapeGroup _shapes = null;
+    ShapeGroup _selectedShapes = null;
+    //Shape selectedShape = null;
+    Rectangle selectionRect = null;
     Point mousePressPt;
 
     public Whiteboard() {
@@ -41,19 +43,12 @@ public class Whiteboard extends JPanel
         @Override
         public void mousePressed(MouseEvent e) 
         {
-            selectedShape = null;
             mousePressPt = e.getPoint();
 
-            for (Shape shape : _shapes) {
-                if (shape.isIn(e.getX(), e.getY())) {
-                    selectedShape = shape;
-                    System.out.println("selected shape at:" + e.getX() + " " + e.getY());
-                    break;
-                }
-            }
+            if (_selectedShapes == null)
+                _selectedShapes = _shapes.getShapesAt(e.getX(), e.getY());//to set pos dragging
 
-            if (selectedShape == null)
-                System.out.println("unselected at:" + e.getX() + " " + e.getY());
+            System.out.println("press: " + ((_selectedShapes == null) ? "un" : "") + "selected at:" + e.getX() + " " + e.getY());
 
             ((Whiteboard) e.getSource()).repaint();
         }
@@ -61,17 +56,18 @@ public class Whiteboard extends JPanel
         @Override
         public void mouseReleased(MouseEvent e) 
         {
-            if(selectionRect == null) return;
-
-            for (Shape shape : _shapes) {
-                if (selectionRect.isIn(shape.getPos().x, shape.getPos().y)) {
-                    selectedShape = shape;
-                    System.out.println("selected shape at:" + e.getX() + " " + e.getY());
-                    break;
-                }
+            if(selectionRect == null) 
+            {
+                _selectedShapes = _shapes.getShapesAt(e.getX(), e.getY());//unselect/select 
+                //_selectedShapes = null;
+            }
+            else
+            {
+                _selectedShapes = _shapes.getShapesIn(selectionRect);
+                selectionRect = null;
             }
 
-            selectionRect = null;
+            System.out.println("release: " + ((_selectedShapes == null) ? "un" : "") + "selected");
 
             ((Whiteboard) e.getSource()).repaint();
         };
@@ -84,12 +80,12 @@ public class Whiteboard extends JPanel
         {
             Whiteboard canvas = (Whiteboard)e.getSource();
 
-            if (selectedShape == null)
+            if (_selectedShapes == null)
             {
                 selectionRect = _factory.createRectangle(Math.min(e.getX(), mousePressPt.x), 
                                                         Math.min(e.getY(), mousePressPt.y),
-                                                        Math.abs(e.getY() - mousePressPt.y),
-                                                        Math.abs(e.getX() - mousePressPt.x));
+                                                        Math.abs(e.getX() - mousePressPt.x),
+                                                        Math.abs(e.getY() - mousePressPt.y));
 
                 canvas.repaint();
                 return;
@@ -102,9 +98,9 @@ public class Whiteboard extends JPanel
                 return;
             }
 
-            Shape shape = selectedShape;
-            
-            shape.setPos(e.getX(), e.getY());
+            //if(!_selectedShapes.contains(e.getX(), e.getY())) return;//prevent drag from anywhere
+
+            _selectedShapes.setCenterToPos(e.getX(), e.getY());
             System.out.println("drag to: " + e.getX() + " " + e.getY());
             
             canvas.repaint();
@@ -113,6 +109,7 @@ public class Whiteboard extends JPanel
     };
 
     private void createScene() {
+        _shapes = new ShapeGroup();
         Shape shape = _factory.createRectangle(250, 250, 75, 25);
         // Shape shape1 = _factory.createCircle(235, 230, 30, 30);
         // Shape shape2 = _factory.createCircle(260, 230, 30, 30);
@@ -120,56 +117,43 @@ public class Whiteboard extends JPanel
 
         //shape.translate(new Point(100, 50));
 
-        Shape[] tmp = { shape };//, shape1, shape2, shape3 };
-        _shapes = tmp;
+        _shapes.add(shape);
     }
 
     public void addShape(Shape shape)
     {
-        Shape[] copy = _shapes.clone();
-        _shapes = new Shape[copy.length + 1];
-
-        for (int i = 0; i < copy.length; i ++) {
-            _shapes[i] = copy[i];
-        }
-
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, this);
         shape.setPos(point.x, point.y);
 
-        _shapes[_shapes.length - 1] = shape;
 
+        _shapes.add(shape);
         System.out.println("new shape dropped.");
-
         this.repaint();
     }
 
     public void removeShape(Shape shape)
     {
-        ArrayList<Shape> copy = new ArrayList<>(Arrays.asList(_shapes));
-
-        copy.remove(shape);
-
-        _shapes = (Shape[])copy.toArray();
-
+        _shapes.remove(shape);
         System.out.println("shape deletion.");
-
         this.repaint();
     }
 
     public Shape getSelection()
     {
-        return selectedShape;
+        return _selectedShapes;
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        for (Shape s : _shapes)
-            s.draw(g);
+        // for (Shape s : _shapes)
+        //     s.draw(g);
 
-        if (selectedShape != null) selectedShape.drawSelectionRect(g);
-        if (selectionRect != null) selectionRect.drawSelectionRect(g);
+        _shapes.draw(g);
+
+        if(_selectedShapes != null) _selectedShapes.drawSelection(g);
+        if (selectionRect != null) selectionRect.drawSelection(g);
     }
 }

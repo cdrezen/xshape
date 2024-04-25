@@ -9,10 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import xshape.Shape;
 import xshape.ShapeIcon;
 import xshape.ShapeToolBar;
 import xshape.Whiteboard;
+import xshape.Model.Shape;
 
 public class ShapeTransferHandler extends TransferHandler {
 

@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 
 import xshape.DragDrop.DeleteShapeTransferHandler;
 import xshape.DragDrop.ShapeTransferHandler;
+import xshape.Model.Shape;
+import xshape.Model.ShapeFactory;
 
 public class ShapeToolBar extends JToolBar
 {

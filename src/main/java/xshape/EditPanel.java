@@ -10,6 +10,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import xshape.Model.Shape;
+
 public class EditPanel extends JPanel
 {
     private JSlider posXSlider;
@@ -32,10 +34,10 @@ public class EditPanel extends JPanel
             }
         };
 
-        posXSlider = buildSlider(0, maxSize.width, shape.getPos().x, sliderListener);
-        posYSlider = buildSlider(0, maxSize.height, shape.getPos().y, sliderListener);
-        widthSlider = buildSlider(0, maxSize.width, shape.getSize().width, sliderListener);
-        heightSlider = buildSlider(0, maxSize.height, shape.getSize().height, sliderListener);
+        posXSlider = buildSlider(0, maxSize.width, shape.position().x, sliderListener);
+        posYSlider = buildSlider(0, maxSize.height, shape.position().y, sliderListener);
+        widthSlider = buildSlider(0, maxSize.width, shape.size().width, sliderListener);
+        heightSlider = buildSlider(0, maxSize.height, shape.size().height, sliderListener);
 
         this.add(new Label("X value:"));
         this.add(posXSlider);
