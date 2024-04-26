@@ -9,6 +9,8 @@ import javax.swing.text.Position;
 
 public class Rectangle extends ShapeAbstact
 {
+    private final int SELECTION_MARGIN = 3;
+
     public Rectangle(Point position, Dimension size) {
         super(position, size);
         //TODO Auto-generated constructor stub
@@ -43,29 +45,18 @@ public class Rectangle extends ShapeAbstact
     }
 
     @Override
-    public void drawAt(Graphics g, int x, int y) {
-        Color c = g.getColor();
-        g.setColor(Color.yellow);
-
+    public void drawAt(Graphics g, int x, int y) 
+    {
         g.fillRect(x, y, size.width, size.height);
-
-        g.setColor(c);
     }
 
     @Override
-    public void drawSelection(Graphics g)
+    public void drawSelection(Graphics g, int margin)
     {
-        Color c = g.getColor();
-        g.setColor(Color.magenta);
-
-        final int margin = 3;
-
         g.drawRect(position.x - margin,
         position.y - margin,        
         size.width + margin + margin,
         size.height + margin + margin);
-        
-        g.setColor(c);
     }
 
     @Override

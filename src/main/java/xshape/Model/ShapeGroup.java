@@ -1,7 +1,11 @@
 package xshape.Model;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -25,13 +29,27 @@ public class ShapeGroup extends ShapeAbstact
         this(0, 0, 0 ,0);
     }
 
+    private Point relativePos(Shape shape)
+    {
+        return new Point(Math.abs(this.position.x - shape.position().x), 
+                        Math.abs(this.position.y - shape.position().y));
+    }
+
+    private Dimension relativeSize(Shape shape)
+    {
+        return new Dimension(Math.abs(this.size.width - shape.size().width), 
+                        Math.abs(this.size.height - shape.size().height));
+    }
+
 
     @Override
     public void setPos(int posX, int posY) {
         // TODO Auto-generated method stub
-        for (Shape shape : components) {
-            shape.setPos(Math.abs(this.position.x - shape.position().x) + posX,
-                         Math.abs(this.position.y - shape.position().y) + posY);
+        for (Shape shape : components) 
+        {
+            Point rpos = relativePos(shape);
+            shape.setPos(rpos.x + posX,
+                         rpos.y + posY);
         }
         super.setPos(posX, posY);
     }
@@ -40,9 +58,13 @@ public class ShapeGroup extends ShapeAbstact
     public void setCenterToPos(int posX, int posY) {
         // TODO Auto-generated method stub
         for (Shape shape : components) {
-            //shape.translate(new Point(Math.abs(this.position.x - posX), Math.abs(this.position.y - posY)));
-            shape.setCenterToPos(Math.abs(this.position.x - shape.position().x) / 2 + posX,
-                                Math.abs(this.position.y - shape.position().y) / 2 + posY);
+            Point rpos = relativePos(shape);
+            Dimension rsize = relativeSize(shape);
+            // shape.setCenterToPos((int)(rpos.x - ((double)rsize.width / 2) + posX),
+            //                     (int)(rpos.y - ((double)rsize.height / 2) + posY));
+            double x = (rpos.x - (rsize.width / 2.0) + posX) - (shape.size().width / 2.0);
+            double y = (rpos.y - (rsize.height / 2.0) + posY) - (shape.size().height / 2.0);
+            shape.setPos((int)x, (int)y);
         }
         super.setCenterToPos(posX, posY);
     }
@@ -57,6 +79,24 @@ public class ShapeGroup extends ShapeAbstact
             shape.setSize(Math.abs(sz.width + diffW), Math.abs(height + diffH));
         }
         super.setSize(width, height);
+    }
+
+    @Override
+    public void resetCenter() {
+        // TODO Auto-generated method stub
+        super.resetCenter();
+        if(components == null) return;
+        for (Shape shape : components) {
+            shape.setCenter(center);
+        }
+    }
+
+    @Override
+    public void setDegrees(int degrees) {
+        for (Shape shape : components) {
+            shape.setDegrees(degrees);
+        }
+        super.setDegrees(degrees);
     }
 
     @Override
@@ -85,21 +125,24 @@ public class ShapeGroup extends ShapeAbstact
 
     private void recalculateBounds()
     {
-        int minX, minY, maxW, maxH;
+        int minX, minY, maxX, maxY;
         minX = minY = Integer.MAX_VALUE;
-        maxW = maxH = 0;
+        maxX = maxY = 0;
 
         for (Shape shape : components) {
+
             Point pos = shape.position();
-            Dimension sz = shape.size();
+            
             minX = Math.min(minX, pos.x);
             minY = Math.min(minY, pos.y);
-            maxW = Math.max(maxW, Math.abs(pos.x - this.position.x) + sz.width); 
-            maxH = Math.max(maxH, Math.abs(pos.y - this.position.y) + sz.height);
+
+            Dimension sz = shape.size();
+            maxX = Math.max(maxX, pos.x + sz.width); 
+            maxY = Math.max(maxY, pos.y + sz.height);
         }
 
         this.position = new Point(minX, minY);
-        this.size = new Dimension(maxW, maxH);
+        this.size = new Dimension(maxX - minX, maxY - minY);
     }
 
     public ShapeGroup getShapesAt(int x, int y)
@@ -154,11 +197,30 @@ public class ShapeGroup extends ShapeAbstact
     }
 
     @Override
-    public void drawSelection(Graphics g) {
+    public void drawSelection(Graphics g)
+    {
+        drawSelection(g, true, Color.GREEN, DEFAULT_MARGIN);
+    }
+
+    @Override
+    public void drawSelection(Graphics g, int margin) 
+    {
         for (Shape shape : components) {
             shape.drawSelection(g);
         }
-        g.drawRect(position.x, position.y, size.width, size.height);
+
+        Graphics2D g2d = (Graphics2D)g;
+
+        Color oldColor = g2d.getColor();
+        Stroke oldStroke = g2d.getStroke();
+
+        g2d.setStroke(DASHED);
+        g2d.setColor(Color.green);
+
+        g2d.drawRect(position.x, position.y, size.width, size.height);
+
+        g2d.setColor(oldColor);
+        g2d.setStroke(oldStroke);
     }
 
     @Override
@@ -176,6 +238,8 @@ public class ShapeGroup extends ShapeAbstact
             recalculateBounds();
         }
 
+        component.setCenter(center);
+
         //onPositionUpdate(component.position());
     }
 
@@ -191,6 +255,8 @@ public class ShapeGroup extends ShapeAbstact
         {
             recalculateBounds();
         }
+
+        component.resetCenter();
     }
 
     @Override

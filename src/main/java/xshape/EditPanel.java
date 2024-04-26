@@ -18,11 +18,12 @@ public class EditPanel extends JPanel
     private JSlider posYSlider;
     private JSlider widthSlider;
     private JSlider heightSlider;
+    private JSlider rotationSlider;
 
     public EditPanel(Shape shape, Whiteboard canvas)
     {
         Dimension maxSize = canvas.getSize();
-        this.setLayout(new GridLayout(4, 0));
+        this.setLayout(new GridLayout(5, 0));
 
         ChangeListener sliderListener = new ChangeListener() {
 
@@ -30,6 +31,7 @@ public class EditPanel extends JPanel
             public void stateChanged(ChangeEvent e) {
                 shape.setPos(posXSlider.getValue(), posYSlider.getValue());
                 shape.setSize(widthSlider.getValue(), heightSlider.getValue());
+                shape.setDegrees(rotationSlider.getValue());
                 canvas.repaint();
             }
         };
@@ -38,6 +40,7 @@ public class EditPanel extends JPanel
         posYSlider = buildSlider(0, maxSize.height, shape.position().y, sliderListener);
         widthSlider = buildSlider(0, maxSize.width, shape.size().width, sliderListener);
         heightSlider = buildSlider(0, maxSize.height, shape.size().height, sliderListener);
+        rotationSlider = buildSlider(0, 360, 0, sliderListener);
 
         this.add(new Label("X value:"));
         this.add(posXSlider);
@@ -47,6 +50,8 @@ public class EditPanel extends JPanel
         this.add(widthSlider);
         this.add(new Label("Height:"));
         this.add(heightSlider);
+        this.add(new Label("Rotation:"));
+        this.add(rotationSlider);
     }
 
     private JSlider buildSlider(int min, int max, int value, ChangeListener listener)

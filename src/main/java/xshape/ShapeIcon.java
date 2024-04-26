@@ -6,18 +6,20 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 
 import xshape.Model.Shape;
+import xshape.Model.ShapeAbstact;
 
 public class ShapeIcon implements Icon {
 
     private Shape shape;
 
     public ShapeIcon(Shape shape) {
-        this.shape = shape;
+        this.shape = shape.clone();
     }
 
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        shape.drawAt(g, x, y);
+        shape.setPos(x, y);
+        shape.draw(g);
     }
 
     @Override

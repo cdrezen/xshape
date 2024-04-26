@@ -37,8 +37,10 @@ public class ShapeToolBar extends JToolBar
         buttons = new ArrayList<>();
 
         //bouttons avec shape comme icone
-        this.add(shapeFactory.createRectangle(4, 4, 50, 50));
-        this.add(shapeFactory.createCircle(20, 20, 50, 50));
+        this.add(shapeFactory.createCircle(0, 0, 50, 50));
+        this.add(shapeFactory.createRectangle(0, 0, 50, 50));
+        this.add(shapeFactory.createPolygon(0, 0, 5, 30));
+
 
 
         JButton delButton = buildResButton("Delete.png", null);

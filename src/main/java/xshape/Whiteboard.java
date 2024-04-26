@@ -1,6 +1,7 @@
 package xshape;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
@@ -100,8 +101,8 @@ public class Whiteboard extends JPanel
 
             //if(!_selectedShapes.contains(e.getX(), e.getY())) return;//prevent drag from anywhere
 
-            //_selectedShapes.setCenterToPos(e.getX(), e.getY());
-            _selectedShapes.setPos(e.getX(), e.getY());
+            _selectedShapes.setCenterToPos(e.getX(), e.getY());
+            //_selectedShapes.setPos(e.getX(), e.getY());
             
             System.out.println("drag to: " + e.getX() + " " + e.getY());
             
@@ -120,6 +121,7 @@ public class Whiteboard extends JPanel
         //shape.translate(new Point(100, 50));
 
         _shapes.add(shape);
+        _shapes.add(_factory.createPolygon(150, 150, 5, 20));
     }
 
     public void addShape(Shape shape)
@@ -156,6 +158,6 @@ public class Whiteboard extends JPanel
         _shapes.draw(g);
 
         if(_selectedShapes != null) _selectedShapes.drawSelection(g);
-        if (selectionRect != null) selectionRect.drawSelection(g);
+        if (selectionRect != null) selectionRect.drawSelection(g, false, Color.magenta, 0);
     }
 }

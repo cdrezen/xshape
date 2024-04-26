@@ -2,17 +2,34 @@ package xshape.Model;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.nio.file.StandardOpenOption;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
 public abstract class ShapeAbstact implements Shape
 {
+    private final int DASH_LEN = 4;
+    final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{DASH_LEN}, 0);
+    final Color SELECTION_COLOR = Color.magenta;
+    final int DEFAULT_MARGIN = 2;
+
     public Point position;
     public Dimension size;
+    public Point center;
+    public Color color = Color.yellow;
+    public int margin = DEFAULT_MARGIN;
+    public int degrees = 0;
 
     public ShapeAbstact(Point position, Dimension size)
     {
         this.position = position;
         this.size = size;
+        resetCenter();
     }
 
     public ShapeAbstact(int x, int y, int width, int height)
@@ -34,19 +51,32 @@ public abstract class ShapeAbstact implements Shape
     public void setPos(int posX, int posY) {
         this.position.x = posX;
         this.position.y = posY;
+        resetCenter();
+    }
+
+    @Override
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    @Override
+    public void resetCenter() {
+        setCenter(new Point((int)(position.x + (this.size.width / 2.0)),
+                            (int)(position.y + (this.size.height / 2.0))));
     }
 
     @Override
     public void setCenterToPos(int posX, int posY)
     {
-        this.position.x = posX - (this.size.width / 2);
-        this.position.y = posY - (this.size.height / 2);
+        this.position.x = (int)(posX - (this.size.width / 2.0));
+        this.position.y = (int)(posY - (this.size.height / 2.0));
     }
 
     @Override
     public void setSize(int width, int height) {
         this.size.width = width;
         this.size.height = height;
+        resetCenter();
     }
 
     @Override
@@ -56,8 +86,56 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void draw(Graphics g) {
-        drawAt(g, this.position.x, this.position.y);
+    public void setDegrees(int degrees) {
+        this.degrees = degrees;
+    }
+
+    @Override
+    public void rotate(int degrees) {
+        this.degrees = (this.degrees + degrees) % 360;
+    }
+
+    @Override
+    public void draw(Graphics g) 
+    {
+        Graphics2D g2d = (Graphics2D)g;
+        Color oldColor = g2d.getColor();
+        g2d.setColor(this.color);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        AffineTransform oldTransform = null;
+        if(degrees != 0)
+        {
+            oldTransform = g2d.getTransform();
+            g2d.rotate(Math.toRadians(degrees), center.x, center.y);
+        }
+
+        drawAt(g2d, this.position.x, this.position.y);
+
+        if(degrees != 0) g2d.setTransform(oldTransform);
+        g2d.setColor(oldColor);
+    }
+
+    @Override
+    public void drawSelection(Graphics g) 
+    {
+        drawSelection(g, true, SELECTION_COLOR, DEFAULT_MARGIN);
+    }
+    
+    public void drawSelection(Graphics g, boolean dashed, Color color, int margin) 
+    {
+        Graphics2D g2d = (Graphics2D)g;
+        Color oldColor = g2d.getColor();
+        Stroke oldStroke = g2d.getStroke();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d.setColor(color);
+        if(dashed) g2d.setStroke(DASHED);
+        
+        drawSelection(g, margin);
+
+        if(dashed) g2d.setStroke(oldStroke);
+        g2d.setColor(oldColor);
     }
 
     @Override
