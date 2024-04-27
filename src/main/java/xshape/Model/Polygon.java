@@ -61,6 +61,12 @@ public class Polygon extends ShapeAbstact
     }
 
     @Override
+    public void setSize(int width, int height) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSize'");
+    }
+
+    @Override
     public boolean contains(int x, int y) {
         // TODO inventer la roue carre
         return calculateBounds().contains(x, y);
@@ -91,18 +97,6 @@ public class Polygon extends ShapeAbstact
         }
 
         g.drawPolygon(xSelectPoints, ySelectPoints, nbSides);
-    }
-
-    @Override
-    public void add(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
-    }
-
-    @Override
-    public void remove(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
 
     @Override

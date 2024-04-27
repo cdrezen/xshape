@@ -38,18 +38,6 @@ public class Cercle extends ShapeAbstact {
         //TODO inventer la roue
         return new Rectangle(position, size).contains(x, y);
     }
-
-    @Override
-    public void add(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
-    }
-
-    @Override
-    public void remove(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
-    }
     
     @Override
     public Cercle clone(){

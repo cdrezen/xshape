@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.lang.reflect.Array;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ public class ShapeGroup extends ShapeAbstact
     public ShapeGroup(Point position, Dimension size) {
         super(position, size);
         this.components = new ArrayList<Shape>();
+        this.selectionColor = Color.cyan;
     }
 
     public ShapeGroup(int x, int y, int width, int height) {
@@ -27,6 +30,14 @@ public class ShapeGroup extends ShapeAbstact
     public ShapeGroup()
     {
         this(0, 0, 0 ,0);
+    }
+
+    public ShapeGroup(Shape ... shapes)
+    {
+        this();
+        for (Shape shape : shapes) {
+            this.add(shape);
+        }
     }
 
     private Point relativePos(Shape shape)
@@ -60,11 +71,12 @@ public class ShapeGroup extends ShapeAbstact
         for (Shape shape : components) {
             Point rpos = relativePos(shape);
             Dimension rsize = relativeSize(shape);
-            // shape.setCenterToPos((int)(rpos.x - ((double)rsize.width / 2) + posX),
-            //                     (int)(rpos.y - ((double)rsize.height / 2) + posY));
-            double x = (rpos.x - (rsize.width / 2.0) + posX) - (shape.size().width / 2.0);
-            double y = (rpos.y - (rsize.height / 2.0) + posY) - (shape.size().height / 2.0);
-            shape.setPos((int)x, (int)y);
+
+            shape.setCenterToPos((int)(rpos.x - ((double)rsize.width / 2.0) + posX),
+                                (int)(rpos.y - ((double)rsize.height / 2.0) + posY));
+            //double x = (rpos.x - (rsize.width / 2.0) + posX) - (shape.size().width / 2.0);
+            //double y = (rpos.y - (rsize.height / 2.0) + posY) - (shape.size().height / 2.0);
+            //shape.setPos((int)x, (int)y);
         }
         super.setCenterToPos(posX, posY);
     }
@@ -72,13 +84,23 @@ public class ShapeGroup extends ShapeAbstact
     @Override
     public void setSize(int width, int height) {
         
-        int diffW = size.width - width;
-        int diffH = size.height - height;
+        //int diffW = width - size.width;
+        //int diffH = height - size.height;
+        double qW = 0, qH = 0;
+
+        if(this.size.width > 0) qW = (double)(width + 1) / this.size.width;
+        if(this.size.height > 0) qH = (double)(height + 1) / this.size.height;
+
         for (Shape shape : components) {
-            Dimension sz = shape.size();
-            shape.setSize(Math.abs(sz.width + diffW), Math.abs(height + diffH));
+            Dimension asize = shape.size();
+
+            //shape.setSize(Math.abs(sz.width + diffW), Math.abs(sz.height + diffH));
+            double awidth = 1 + (double)asize.width * qW;
+            double aheight = 1 + (double)asize.height * qH;
+            shape.setSize((int)awidth, (int)aheight);
         }
         super.setSize(width, height);
+        recalculateBounds();
     }
 
     @Override
@@ -199,7 +221,7 @@ public class ShapeGroup extends ShapeAbstact
     @Override
     public void drawSelection(Graphics g)
     {
-        drawSelection(g, true, Color.GREEN, DEFAULT_MARGIN);
+        drawSelection(g, true, selectionColor, DEFAULT_MARGIN);
     }
 
     @Override
@@ -209,18 +231,7 @@ public class ShapeGroup extends ShapeAbstact
             shape.drawSelection(g);
         }
 
-        Graphics2D g2d = (Graphics2D)g;
-
-        Color oldColor = g2d.getColor();
-        Stroke oldStroke = g2d.getStroke();
-
-        g2d.setStroke(DASHED);
-        g2d.setColor(Color.green);
-
-        g2d.drawRect(position.x, position.y, size.width, size.height);
-
-        g2d.setColor(oldColor);
-        g2d.setStroke(oldStroke);
+        g.drawRect(position.x, position.y, size.width, size.height);
     }
 
     @Override
@@ -238,9 +249,26 @@ public class ShapeGroup extends ShapeAbstact
             recalculateBounds();
         }
 
-        component.setCenter(center);
+        component.setCenter(this.center);
 
         //onPositionUpdate(component.position());
+    }
+
+    @Override
+    public void add(Shape ... shapes) 
+    {
+        if(isEmpty())
+        {
+            this.position = shapes[0].position();
+            this.size = shapes[0].size();
+        }
+        
+        for (Shape shape : shapes) {
+            this.components.add(shape);
+            shape.setCenter(this.center);
+        }
+        
+        recalculateBounds();
     }
 
     @Override
@@ -260,6 +288,26 @@ public class ShapeGroup extends ShapeAbstact
     }
 
     @Override
+    public void remove(Shape ... shapes) {
+
+        for (Shape shape : shapes) 
+        {
+            this.components.remove(shape);
+            shape.resetCenter();   
+        }
+
+        if(components.isEmpty())
+        {
+            this.position = new Point(0, 0);
+            this.size = new Dimension(0,0);
+        }
+        else
+        {
+            recalculateBounds();
+        }
+    }
+
+    @Override
     public Shape clone()
     {
         System.err.println("group clone");
@@ -271,4 +319,81 @@ public class ShapeGroup extends ShapeAbstact
         }
         return group;
     }
+
+    @Override
+    public Shape[] getChildren() {
+        Shape[] arr = new Shape[this.components.size()];
+        return this.components.toArray(arr);
+    }
+
+    //group ShapeGroup 'group' inside this
+    public void group(ShapeGroup group)
+    {
+        if(this.components.size() == 1) return;
+        this.remove(group.getChildren());
+        this.add(group);
+    }
+    
+    public void group(Shape ... shapes)
+    {
+        ShapeGroup group = new ShapeGroup(position, size);
+
+        group.add(shapes);
+        this.remove(shapes);
+        this.add(group);
+    }
+
+    //ungroup ShapeGroup 'group' inside this
+    public void ungroup(ShapeGroup group)
+    {
+        Shape[] children = group.getChildren();
+
+        if(children == null || children.length != 1) return;
+
+        this.add(children[0].getChildren());
+        this.remove(children[0]);
+    }
+
+    // //group this inside this, need parent()?
+    // public ShapeGroup group()
+    // {
+    //     if(this.components.size() == 1) 
+    //     { 
+    //         Shape shape = this.components.get(0);
+    //         if(shape.getChildren() != null) ((ShapeGroup)shape).group(); 
+    //         return this; 
+    //     }
+    //     Shape group = this.clone();
+    //     this.components.clear();
+    //     this.add(group);
+    //     return this;
+    // }
+
+    // public ShapeGroup ungroup()
+    // {
+    //     ArrayList<Shape> toRemove = new ArrayList<>();
+    //     ArrayList<Shape> toAdd = new ArrayList<>();
+
+    //     for (Shape shape : components) {
+    //         Shape[] children = shape.getChildren();
+    //         if(children == null || children.length != 1) continue;
+    //         System.out.println("boop");
+
+    //         toRemove.add(shape);
+    //         for (Shape child : children) {
+    //             System.out.println("boop1");
+    //             toAdd.add(child);
+    //         }
+    //     }
+
+    //     for (Shape shape : toAdd) {
+    //         this.add(shape);
+    //     }
+
+    //     for (Shape shape : toRemove) {
+    //         this.remove(shape);
+    //     }
+
+    //     return this;
+    // }
 }

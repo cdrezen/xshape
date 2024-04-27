@@ -65,16 +65,4 @@ public class Rectangle extends ShapeAbstact
         System.err.println("rect clone");
         return new Rectangle(new Point(position), new Dimension(size));
     }
-
-    @Override
-    public void add(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
-    }
-
-    @Override
-    public void remove(Shape component) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
-    }
 }

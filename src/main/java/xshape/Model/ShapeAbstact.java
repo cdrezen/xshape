@@ -15,13 +15,13 @@ public abstract class ShapeAbstact implements Shape
 {
     private final int DASH_LEN = 4;
     final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{DASH_LEN}, 0);
-    final Color SELECTION_COLOR = Color.magenta;
     final int DEFAULT_MARGIN = 2;
 
     public Point position;
     public Dimension size;
     public Point center;
     public Color color = Color.yellow;
+    public Color selectionColor = Color.magenta;
     public int margin = DEFAULT_MARGIN;
     public int degrees = 0;
 
@@ -119,7 +119,7 @@ public abstract class ShapeAbstact implements Shape
     @Override
     public void drawSelection(Graphics g) 
     {
-        drawSelection(g, true, SELECTION_COLOR, DEFAULT_MARGIN);
+        drawSelection(g, true, selectionColor, DEFAULT_MARGIN);
     }
     
     public void drawSelection(Graphics g, boolean dashed, Color color, int margin) 
@@ -141,5 +141,35 @@ public abstract class ShapeAbstact implements Shape
     @Override
     public Shape clone() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(Shape component) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    }
+
+    @Override
+    public void add(Shape ... shapes) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    }
+
+    @Override
+    public void remove(Shape component) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    }
+
+    @Override
+    public void remove(Shape ... shapes) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    }
+
+    @Override
+    public Shape[] getChildren() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

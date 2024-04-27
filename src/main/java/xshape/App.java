@@ -33,31 +33,7 @@ public class App {
         ShapeToolBar toolBar = new ShapeToolBar();
         frame.add(toolBar, BorderLayout.WEST);
 
-        ActionListener editListener = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Shape selectedShape = canvas.getSelection();
-                if(selectedShape != null)
-                {
-                    EditPanel edit = new EditPanel(selectedShape, canvas);
-                    int choice = JOptionPane.showConfirmDialog(frame,
-                                    edit,
-                                    "Edit shape",
-                                    JOptionPane.OK_CANCEL_OPTION);
-
-                    if(choice == JOptionPane.OK_OPTION)
-                    {
-                        int[] res = edit.result();
-                        //edit shape with result
-                    }
-
-                }
-            }
-            
-        };
-
-        MenuBar menu = new MenuBar(editListener);
+        MenuBar menu = new MenuBar(canvas);
         frame.add(menu, BorderLayout.NORTH);
 
         frame.pack();

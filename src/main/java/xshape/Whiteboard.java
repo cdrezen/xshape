@@ -23,6 +23,7 @@ import xshape.Model.ShapeGroup;
 
 public class Whiteboard extends JPanel
 {
+    ContextMenu menu;
     private ShapeFactory _factory = null;
     ShapeGroup _shapes = null;
     ShapeGroup _selectedShapes = null;
@@ -31,6 +32,7 @@ public class Whiteboard extends JPanel
     Point mousePressPt;
 
     public Whiteboard() {
+        menu = new ContextMenu(this);
         this.addMouseListener(mousePressAdapter);
         this.addMouseMotionListener(mouseDragAdapter);
 
@@ -44,6 +46,9 @@ public class Whiteboard extends JPanel
         @Override
         public void mousePressed(MouseEvent e) 
         {
+            if(e.isPopupTrigger()) doPop(e);
+            if(menu.isVisible()) return;
+
             mousePressPt = e.getPoint();
 
             if (_selectedShapes == null)
@@ -57,6 +62,9 @@ public class Whiteboard extends JPanel
         @Override
         public void mouseReleased(MouseEvent e) 
         {
+            if(e.isPopupTrigger()) doPop(e);
+            if(menu.isVisible()) return;
+
             if(selectionRect == null) 
             {
                 _selectedShapes = _shapes.getShapesAt(e.getX(), e.getY());//unselect/select 
@@ -73,6 +81,10 @@ public class Whiteboard extends JPanel
             ((Whiteboard) e.getSource()).repaint();
         };
     };
+
+    private void doPop(MouseEvent e) {
+        menu.show(e.getComponent(), e.getX(), e.getY());
+    }
 
     MouseAdapter mouseDragAdapter = new MouseAdapter() {
 
@@ -143,9 +155,14 @@ public class Whiteboard extends JPanel
         this.repaint();
     }
 
-    public Shape getSelection()
+    public ShapeGroup getSelection()
     {
         return _selectedShapes;
+    }
+
+    public ShapeGroup getShapes()
+    {
+        return _shapes;
     }
 
     @Override
@@ -157,7 +174,7 @@ public class Whiteboard extends JPanel
 
         _shapes.draw(g);
 
-        if(_selectedShapes != null) _selectedShapes.drawSelection(g);
+        if(_selectedShapes != null) _selectedShapes.drawSelection(g, true, Color.green, 0);
         if (selectionRect != null) selectionRect.drawSelection(g, false, Color.magenta, 0);
     }
 }

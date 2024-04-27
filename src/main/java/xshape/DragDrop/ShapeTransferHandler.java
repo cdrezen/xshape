@@ -13,6 +13,7 @@ import xshape.ShapeIcon;
 import xshape.ShapeToolBar;
 import xshape.Whiteboard;
 import xshape.Model.Shape;
+import xshape.Model.ShapeGroup;
 
 public class ShapeTransferHandler extends TransferHandler {
 
@@ -72,8 +73,6 @@ public class ShapeTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent component) 
     {
-        Transferable transferable = null;
-
         //drag from JButton
         if (component instanceof JButton) 
         {    
@@ -82,7 +81,7 @@ public class ShapeTransferHandler extends TransferHandler {
             try 
             {
                 ShapeIcon icon = (ShapeIcon)button.getIcon();
-                transferable = new ShapeTransferable(icon);//SHAPE_ICON_FLAVOR
+                return new ShapeTransferable(icon);//SHAPE_ICON_FLAVOR
             }
             catch (Exception e)
             {
@@ -94,15 +93,19 @@ public class ShapeTransferHandler extends TransferHandler {
         if(component instanceof Whiteboard)
         {
             Whiteboard canvas = (Whiteboard)component;
-            Shape selectedShape = canvas.getSelection();
+            ShapeGroup selectedShapes = canvas.getSelection();
 
-            if (selectedShape != null)
+            if (selectedShapes != null)
             {
-                transferable = new ShapeTransferable(selectedShape);
+                Shape[] children = selectedShapes.getChildren();
+            
+                if(children.length == 1) return new ShapeTransferable(children[0]); //alone shape selection
+
+                return new ShapeTransferable(selectedShapes);
             }
         }
 
-        return transferable;
+        return null;
     }
 
     @Override
