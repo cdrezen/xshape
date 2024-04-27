@@ -72,11 +72,11 @@ public class ShapeGroup extends ShapeAbstact
             Point rpos = relativePos(shape);
             Dimension rsize = relativeSize(shape);
 
-            shape.setCenterToPos((int)(rpos.x - ((double)rsize.width / 2.0) + posX),
-                                (int)(rpos.y - ((double)rsize.height / 2.0) + posY));
-            //double x = (rpos.x - (rsize.width / 2.0) + posX) - (shape.size().width / 2.0);
-            //double y = (rpos.y - (rsize.height / 2.0) + posY) - (shape.size().height / 2.0);
-            //shape.setPos((int)x, (int)y);
+            // shape.setCenterToPos((int)(rpos.x - ((double)rsize.width / 2.0) + posX),
+            //                     (int)(rpos.y - ((double)rsize.height / 2.0) + posY));
+            double x = (rpos.x - (rsize.width / 2.0) + posX) - (shape.size().width / 2.0);
+            double y = (rpos.y - (rsize.height / 2.0) + posY) - (shape.size().height / 2.0);
+            shape.setPos((int)x, (int)y);
         }
         super.setCenterToPos(posX, posY);
     }
