@@ -7,3 +7,8 @@ mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Darchetyp
 mvn clean package  
 mvn exec:java
 ```
+
+# Envoyer au prof
+```
+mvn clean compile assembly:single
+```
