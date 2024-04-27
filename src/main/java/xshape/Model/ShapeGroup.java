@@ -83,25 +83,41 @@ public class ShapeGroup extends ShapeAbstact
 
     @Override
     public void setSize(int width, int height) {
-        
-        //int diffW = width - size.width;
-        //int diffH = height - size.height;
+       
         double qW = 0, qH = 0;
 
-        if(this.size.width > 0) qW = (double)(width + 1) / this.size.width;
-        if(this.size.height > 0) qH = (double)(height + 1) / this.size.height;
+        if(this.size.width > 0) qW = (double)width / this.size.width;//+??
+        if(this.size.height > 0) qH = (double)height/ this.size.height;
+
+        //int diffW = width - size.width;
+        //int diffH = height - size.height;
 
         for (Shape shape : components) {
             Dimension asize = shape.size();
 
-            //shape.setSize(Math.abs(sz.width + diffW), Math.abs(sz.height + diffH));
-            double awidth = 1 + (double)asize.width * qW;
-            double aheight = 1 + (double)asize.height * qH;
+            double awidth = (double)asize.width * qW;
+            double aheight = (double)asize.height * qH;
             shape.setSize((int)awidth, (int)aheight);
+
+            Point apos = shape.position();
+            double ax = (double)apos.x * qW;
+            double ay = (double)apos.y * qH;
+            shape.setPos((int)ax, (int)ay);
         }
         super.setSize(width, height);
         recalculateBounds();
     }
+
+    @Override
+    public void scale(double scale) {
+        // TODO Auto-generated method stub
+        for (Shape shape : components) {
+            shape.scale(scale);
+        }
+        super.scale(scale);
+        recalculateBounds();
+    }
+
 
     @Override
     public void resetCenter() {
@@ -165,6 +181,7 @@ public class ShapeGroup extends ShapeAbstact
 
         this.position = new Point(minX, minY);
         this.size = new Dimension(maxX - minX, maxY - minY);
+        resetCenter();
     }
 
     public ShapeGroup getShapesAt(int x, int y)

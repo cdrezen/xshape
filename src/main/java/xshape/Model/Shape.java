@@ -13,6 +13,7 @@ public interface Shape extends Composable, Prototypable
 	void setCenterToPos(int posX, int posY);
 	Shape translate(Point vec);
 	void setSize(int width, int height);
+	void scale(double scale);
 	void setCenter(Point center);
 	void resetCenter();
 	void rotate(int degrees);

@@ -80,6 +80,13 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
+    public void scale(double scale) {
+        this.size.width = (int) (this.size.width * scale);
+        this.size.height = (int) (this.size.height * scale);
+        resetCenter();
+    }
+
+    @Override
     public Shape translate(Point vec) {
         setPos(this.position.x + vec.x, this.position.y + vec.y);
         return this;

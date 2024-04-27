@@ -60,10 +60,14 @@ public class Polygon extends ShapeAbstact
                                boundsMaxY - this.position.y);
     }
 
+
     @Override
     public void setSize(int width, int height) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSize'");
+        int minDim = Math.min(width, height);
+        this.sideLength = (int)(minDim / (2 * Math.tan(Math.PI / this.nbSides)));
+        calculatePoints(nbSides, sideLength);
+        Rectangle bounds = calculateBounds();
+        super.setSize(bounds.size.width, bounds.size.height);
     }
 
     @Override

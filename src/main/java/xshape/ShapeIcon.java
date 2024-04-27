@@ -1,7 +1,10 @@
 package xshape;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.Icon;
 
@@ -10,14 +13,22 @@ import xshape.Model.ShapeAbstact;
 
 public class ShapeIcon implements Icon {
 
+    private final Dimension MAX_DIM = new Dimension(32, 32);
     private Shape shape;
+    private Dimension oldSize = null;
 
     public ShapeIcon(Shape shape) {
         this.shape = shape.clone();
+        if(shape.size().width > MAX_DIM.width || shape.size().height > MAX_DIM.height)
+        {
+            oldSize = shape.size();
+            this.shape.setSize(MAX_DIM.width, MAX_DIM.height);//getIconWidth(), getIconHeight());
+        }
     }
 
     @Override
-    public void paintIcon(Component c, Graphics g, int x, int y) {
+    public void paintIcon(Component c, Graphics g, int x, int y) 
+    {   
         shape.setPos(x, y);
         shape.draw(g);
     }
@@ -34,6 +45,8 @@ public class ShapeIcon implements Icon {
 
     public Shape getShape()
     {
-        return shape;
+        Shape res = shape.clone();
+        if(oldSize != null) res.setSize(oldSize.width, oldSize.height);
+        return res;
     }
 }
