@@ -24,7 +24,7 @@ public abstract class ShapeAbstact implements Shape
     public Color selectionColor = Color.magenta;
     public int margin = DEFAULT_MARGIN;
     public int degrees = 0;
-
+    public String name;
     public ShapeAbstact(Point position, Dimension size)
     {
         this.position = position;
@@ -35,6 +35,10 @@ public abstract class ShapeAbstact implements Shape
     public ShapeAbstact(int x, int y, int width, int height)
     {
         this(new Point(x, y), new Dimension(width, height));
+    }
+
+    public String name(){
+        return name;
     }
 
     @Override

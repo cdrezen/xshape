@@ -40,6 +40,10 @@ public class ShapeGroup extends ShapeAbstact
         }
     }
 
+    public ArrayList<Shape> getShapeGroup(){
+        return components;
+    }
+    
     private Point relativePos(Shape shape)
     {
         return new Point(Math.abs(this.position.x - shape.position().x), 

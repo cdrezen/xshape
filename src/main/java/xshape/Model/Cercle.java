@@ -6,15 +6,17 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public class Cercle extends ShapeAbstact {
-
+    
     public Cercle(Point position, Dimension size) {
         super(position, size);
         this.margin = 3;
+        name = "Cercle";
         //TODO Auto-generated constructor stub
     }
 
     public Cercle(int x, int y, int width, int height) {
         this(new Point(x, y), new Dimension(width, height));
+        name = "Cercle";
     }
 
     @Override
