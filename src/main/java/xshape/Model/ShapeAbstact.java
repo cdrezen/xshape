@@ -81,8 +81,18 @@ public abstract class ShapeAbstact implements Shape
 
     @Override
     public void scale(double scale) {
+        //if(scale < 0.1 || 1.0/scale < 0.1) return;
         this.size.width = (int) (this.size.width * scale);
         this.size.height = (int) (this.size.height * scale);
+        resetCenter();
+    }
+
+    @Override
+    public void scale(double scaleW, double scaleH) {
+        // if(scaleW < 0.1 || 1.0/scaleW < 0.1) scaleW = 1;
+        // if(scaleH < 0.1 || 1.0/scaleH < 0.1) scaleH = 1;
+        this.size.width = (int) (this.size.width * scaleW);
+        this.size.height = (int) (this.size.height * scaleH);
         resetCenter();
     }
 

@@ -81,8 +81,8 @@ public class ShapeGroup extends ShapeAbstact
         super.setCenterToPos(posX, posY);
     }
 
-    @Override
-    public void setSize(int width, int height) {
+    //@Override
+    public void setSize1(int width, int height) {
        
         double qW = 0, qH = 0;
 
@@ -108,13 +108,54 @@ public class ShapeGroup extends ShapeAbstact
         recalculateBounds();
     }
 
+    public void setSize(int width, int height) {
+       
+        double qW = 1, qH = 1;
+
+        if(this.size.width > 0) qW = (double)width / this.size.width;
+        if(this.size.height > 0) qH = (double)height / this.size.height;
+
+        // if(qW < 0.1 || 1.0/qW < 0.1) qW = 1;
+        // if(qH < 0.1 || 1.0/qH < 0.1) qH = 1;
+
+        scale(qW, qH);
+
+        //super.scale(qW, qH);
+        // super.setSize(width, height);
+
+        // int diffW = size.width - width;
+        // int diffH = size.height - height;
+
+        // for (Shape shape : components) {
+        //     Dimension sz = shape.size();
+        //     if(qW == 1 || qH == 1) shape.setSize(Math.abs(sz.width + diffW), Math.abs(sz.height + diffH));
+        //     else shape.scale(qW, qH);
+        // }
+
+        // recalculateBounds();
+    }
+
     @Override
-    public void scale(double scale) {
-        // TODO Auto-generated method stub
+    public void scale(double scaleW, double scaleH)
+    {
+        super.scale(scaleW, scaleH);
+
+        for (Shape shape : components) {
+            shape.scale(scaleW, scaleH);
+        }
+
+        recalculateBounds();
+    }
+
+    @Override
+    public void scale(double scale) 
+    {
+        super.scale(scale);
+
         for (Shape shape : components) {
             shape.scale(scale);
         }
-        super.scale(scale);
+
         recalculateBounds();
     }
 
