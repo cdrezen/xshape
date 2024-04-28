@@ -13,11 +13,13 @@ public class Rectangle extends ShapeAbstact
 
     public Rectangle(Point position, Dimension size) {
         super(position, size);
+        name = "Rectangle";
         //TODO Auto-generated constructor stub
     }
 
     public Rectangle(int x, int y, int width, int height) {
         this(new Point(x, y), new Dimension(width, height));
+        name = "Rectangle";
     }
 
     @Override

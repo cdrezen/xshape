@@ -23,6 +23,7 @@ public class Polygon extends ShapeAbstact
         Rectangle bounds = calculateBounds();
         this.size = bounds.size();
         this.margin = 3;
+        this.name = "Polygon";
     }
 
     private void calculatePoints(int nbSides, int sideLength)
@@ -107,6 +108,14 @@ public class Polygon extends ShapeAbstact
     public Shape clone() {
         // TODO Auto-generated method stub
         return new Polygon(new Point(position), nbSides, sideLength);
+    }
+
+    public int nbSides() {
+        return nbSides;
+    }
+
+    public int sideLength() {
+        return sideLength;
     }
     
 }

@@ -17,7 +17,5 @@ public abstract class Command {
 
     abstract void undo();
 
-    abstract void redo();
-
     abstract void execute();
 }

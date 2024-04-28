@@ -41,6 +41,10 @@ public class Whiteboard extends JPanel
         createScene();
     }
 
+    public ArrayList<Shape> getShapeGroup(){
+        return _shapes.getShapeGroup();
+    }
+
     MouseAdapter mousePressAdapter = new MouseAdapter() {
 
         @Override
@@ -155,6 +159,27 @@ public class Whiteboard extends JPanel
         this.repaint();
     }
 
+    public void removeAllShape()
+    {
+        _shapes = new ShapeGroup();
+        System.out.println("All shape deletion.");
+        clearCanvas();
+        this.repaint();
+    }
+
+    public void clearCanvas() {
+        Graphics g = getGraphics();  // Get the graphics context
+        g.setColor(getBackground());  // Set color to background color
+        g.clearRect(0, 0, getWidth(), getHeight());  // Clear the entire canvas
+    }
+
+    public void addShapeFromJson(Shape shape)
+    {
+        _shapes.add(shape);
+        System.out.println("new shape dropped.");
+        this.repaint();
+    }
+
     public ShapeGroup getSelection()
     {
         return _selectedShapes;
@@ -177,4 +202,5 @@ public class Whiteboard extends JPanel
         if(_selectedShapes != null) _selectedShapes.drawSelection(g, true, Color.green, 0);
         if (selectionRect != null) selectionRect.drawSelection(g, false, Color.magenta, 0);
     }
+   
 }
