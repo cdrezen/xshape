@@ -3,12 +3,7 @@ package xshape;
 import java.awt.*;
 import javax.swing.*;
 
-import xshape.DragDrop.ShapeTransferHandler;
 import xshape.Model.Polygon;
-import xshape.Model.Shape;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -48,7 +43,7 @@ public class App {
         final Polygon hex = new Polygon(new Point(0, 0), 5, 32);
         final Taskbar taskbar = Taskbar.getTaskbar();
         try {
-            BufferedImage bi = new BufferedImage(hex.size.width, hex.size.height, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage bi = new BufferedImage((int)hex.size.width, (int)hex.size.height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = (Graphics2D)bi.getGraphics();
             hex.draw(g2d);
 

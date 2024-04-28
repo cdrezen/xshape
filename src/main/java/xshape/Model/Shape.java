@@ -1,7 +1,6 @@
 package xshape.Model;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -12,7 +11,7 @@ public interface Shape extends Composable, Prototypable
 	void setPos(int posX, int posY);
 	void setCenterToPos(int posX, int posY);
 	Shape translate(Point vec);
-	void setSize(int width, int height);
+	void setSize(double width, double height);
 	void scale(double scale);
 	void scale(double scaleW, double scaleH);
 	void setCenter(Point center);

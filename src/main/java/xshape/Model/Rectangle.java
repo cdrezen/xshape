@@ -1,16 +1,10 @@
 package xshape.Model;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.text.Position;
-
 public class Rectangle extends ShapeAbstact
 {
-    private final int SELECTION_MARGIN = 3;
-
     public Rectangle(Point position, Dimension size) {
         super(position, size);
         name = "Rectangle";
@@ -27,8 +21,8 @@ public class Rectangle extends ShapeAbstact
     {
         //cf java.awt.Rectangle
 
-        int w = this.size.width;
-        int h = this.size.height;
+        int w = (int)this.size.width;
+        int h = (int)this.size.height;
         if ((w | h) < 0) {
             // At least one of the dimensions is negative...
             return false;
@@ -49,7 +43,7 @@ public class Rectangle extends ShapeAbstact
     @Override
     public void drawAt(Graphics g, int x, int y) 
     {
-        g.fillRect(x, y, size.width, size.height);
+        g.fillRect(x, y, (int)size.width, (int)size.height);
     }
 
     @Override
@@ -57,8 +51,8 @@ public class Rectangle extends ShapeAbstact
     {
         g.drawRect(position.x - margin,
         position.y - margin,        
-        size.width + margin + margin,
-        size.height + margin + margin);
+        (int)size.width + margin + margin,
+        (int)size.height + margin + margin);
     }
 
     @Override

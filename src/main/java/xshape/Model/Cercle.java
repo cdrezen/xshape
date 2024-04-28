@@ -1,7 +1,5 @@
 package xshape.Model;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -22,7 +20,7 @@ public class Cercle extends ShapeAbstact {
     @Override
     public void drawAt(Graphics g, int x, int y) 
     {
-        g.fillOval(x, y, size.width, size.height);
+        g.fillOval(x, y, (int)size.width, (int)size.height);
     }
 
     @Override
@@ -31,8 +29,8 @@ public class Cercle extends ShapeAbstact {
         final int margin2 = 2 * margin;
         g.drawOval(position.x - margin, 
                     position.y - margin, 
-                    size.width + margin2, 
-                    size.height + margin2);
+                    (int)size.width + margin2, 
+                    (int)size.height + margin2);
     }
 
     @Override

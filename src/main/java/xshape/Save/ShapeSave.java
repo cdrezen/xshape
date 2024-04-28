@@ -1,14 +1,16 @@
 package xshape.Save;
 
-import java.awt.Dimension;
 import java.awt.Point;
+
+import xshape.Model.Dimension;
 import xshape.Model.Polygon;
 import xshape.Model.Shape;
 
 public class ShapeSave{
     public Point position;
     public Dimension size;
-    public int nbSides, sideLength;
+    public int nbSides;
+    public double sideLength;
     public String type;
     public ShapeSave(Shape s){
         this.position = s.position();

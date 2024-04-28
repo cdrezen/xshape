@@ -2,18 +2,13 @@ package xshape.DragDrop;
 
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import xshape.ShapeIcon;
 import xshape.ShapeToolBar;
-import xshape.Whiteboard;
 import xshape.Model.Shape;
 
 public class DeleteShapeTransferHandler extends TransferHandler {

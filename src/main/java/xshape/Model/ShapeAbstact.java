@@ -1,13 +1,11 @@
 package xshape.Model;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.nio.file.StandardOpenOption;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -77,26 +75,24 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void setSize(int width, int height) {
-        this.size.width = width;
-        this.size.height = height;
+    public void setSize(double width, double height) {
+        this.size.setSize(width, height);
         resetCenter();
     }
 
     @Override
-    public void scale(double scale) {
-        //if(scale < 0.1 || 1.0/scale < 0.1) return;
-        this.size.width = (int) (this.size.width * scale);
-        this.size.height = (int) (this.size.height * scale);
+    public void scale(double scale) 
+    {
+        this.size.setSize(this.size.width * scale, 
+                        this.size.height * scale);
         resetCenter();
     }
 
     @Override
-    public void scale(double scaleW, double scaleH) {
-        // if(scaleW < 0.1 || 1.0/scaleW < 0.1) scaleW = 1;
-        // if(scaleH < 0.1 || 1.0/scaleH < 0.1) scaleH = 1;
-        this.size.width = (int) (this.size.width * scaleW);
-        this.size.height = (int) (this.size.height * scaleH);
+    public void scale(double scaleW, double scaleH) 
+    {
+        this.size.setSize(this.size.width * scaleW, 
+                        this.size.height * scaleH);
         resetCenter();
     }
 

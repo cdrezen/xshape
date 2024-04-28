@@ -1,21 +1,19 @@
 package xshape.Model;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
 public class Polygon extends ShapeAbstact
 {
     private int nbSides = 7;
-    private int sideLength = 4;
+    private double sideLength = 4;
     int[] xOffset;
     int[] yOffset;
     int[] xPoints;
     int[] yPoints;
 
-    public Polygon(Point position, int nbSides, int sideLength) {
-        super(position, new Dimension(sideLength, sideLength));
+    public Polygon(Point position, int nbSides, double sideLength) {
+        super(position, new Dimension((int)sideLength, (int)sideLength));
         this.nbSides = nbSides;
         this.sideLength = sideLength;
 
@@ -26,7 +24,7 @@ public class Polygon extends ShapeAbstact
         this.name = "Polygon";
     }
 
-    private void calculatePoints(int nbSides, int sideLength)
+    private void calculatePoints(int nbSides, double sideLength)
     {
         xOffset = new int[nbSides];
         yOffset = new int[nbSides];
@@ -40,8 +38,8 @@ public class Polygon extends ShapeAbstact
         for (int i = 0; i < nbSides; i++) 
         {
             double angle = firstAngle + i * theta;
-            xOffset[i] = sideLength + (int)(sideLength * Math.cos(angle));
-            yOffset[i] = sideLength + (int)(sideLength * Math.sin(angle));
+            xOffset[i] = (int)(sideLength + (sideLength * Math.cos(angle)));
+            yOffset[i] = (int)(sideLength + (sideLength * Math.sin(angle)));
             xPoints[i] = position.x + xOffset[i];
             yPoints[i] = position.y + yOffset[i];
         }
@@ -63,9 +61,9 @@ public class Polygon extends ShapeAbstact
 
 
     @Override
-    public void setSize(int width, int height) {
-        int minDim = Math.min(width, height);
-        this.sideLength = (int)(minDim / (2 * Math.tan(Math.PI / this.nbSides)));
+    public void setSize(double width, double height) {
+        double minDim = Math.min(width, height);
+        this.sideLength = minDim / (2 * Math.tan(Math.PI / this.nbSides));
         calculatePoints(nbSides, sideLength);
         Rectangle bounds = calculateBounds();
         super.setSize(bounds.size.width, bounds.size.height);
@@ -114,7 +112,7 @@ public class Polygon extends ShapeAbstact
         return nbSides;
     }
 
-    public int sideLength() {
+    public double sideLength() {
         return sideLength;
     }
     

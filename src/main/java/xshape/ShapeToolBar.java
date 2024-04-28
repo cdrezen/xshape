@@ -1,19 +1,16 @@
 package xshape;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.JDBCType;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.TransferHandler;
-import javax.swing.UIManager;
 
 import xshape.DragDrop.DeleteShapeTransferHandler;
 import xshape.DragDrop.ShapeTransferHandler;

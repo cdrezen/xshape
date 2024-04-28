@@ -1,17 +1,9 @@
 package xshape.Model;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.lang.reflect.Array;
 import java.awt.Point;
 import java.util.ArrayList;
-
-import javax.swing.text.Position;
 
 public class ShapeGroup extends ShapeAbstact
 {
@@ -85,58 +77,45 @@ public class ShapeGroup extends ShapeAbstact
         super.setCenterToPos(posX, posY);
     }
 
-    //@Override
-    public void setSize1(int width, int height) {
-       
-        double qW = 0, qH = 0;
-
-        if(this.size.width > 0) qW = (double)width / this.size.width;//+??
-        if(this.size.height > 0) qH = (double)height/ this.size.height;
-
-        //int diffW = width - size.width;
-        //int diffH = height - size.height;
-
-        for (Shape shape : components) {
-            Dimension asize = shape.size();
-
-            double awidth = (double)asize.width * qW;
-            double aheight = (double)asize.height * qH;
-            shape.setSize((int)awidth, (int)aheight);
-
-            Point apos = shape.position();
-            double ax = (double)apos.x * qW;
-            double ay = (double)apos.y * qH;
-            shape.setPos((int)ax, (int)ay);
-        }
-        super.setSize(width, height);
-        recalculateBounds();
-    }
-
+    @Deprecated //ancien setSize sans mise à l'échelle qui ne bugait pas avec des int (bug de perte de precision avec un scalling sur des dimensions int)
     public void setSize(int width, int height) {
        
+        double diffW =  width - this.size.width;
+        double diffH =  height - this.size.height;
+
+        for (Shape shape : components) {
+            Dimension sz = shape.size();
+            shape.setSize(Math.abs(sz.width + diffW), Math.abs(sz.height + diffH));
+        }
+
+         recalculateBounds();
+    }
+
+    @Override
+    public void setSize(double width, double height) {
         double qW = 1, qH = 1;
 
-        if(this.size.width > 0) qW = (double)width / this.size.width;
-        if(this.size.height > 0) qH = (double)height / this.size.height;
+        if(this.size.width > 0) qW = (double)(width) / this.size.width;
+        if(this.size.height > 0) qH = (double)(height) / this.size.height;
 
-        // if(qW < 0.1 || 1.0/qW < 0.1) qW = 1;
-        // if(qH < 0.1 || 1.0/qH < 0.1) qH = 1;
+        // if we used ints:
+        // if((qW - 1.0/qW) != 0 && (qW - 1.0/qW) < 0.1) return;
+        // if((qH - 1.0/qH) != 0 && (qW - 1.0/qW) < 0.1) return;
 
+        System.out.println(Math.abs(qW - 1.0/qW) + " " + Math.abs(qH - 1.0/qH));
+        
+        //scale everything
         scale(qW, qH);
 
-        //super.scale(qW, qH);
-        // super.setSize(width, height);
+        //update positions
+        for (Shape shape : components) {
+            Point pos = shape.position();
+            Point rpos = relativePos(shape);
+            shape.setPos((int)(pos.x + rpos.x * (-1.0 + qW)) , 
+                        (int)(pos.y + rpos.y * (-1.0 + qH)));
+        }
 
-        // int diffW = size.width - width;
-        // int diffH = size.height - height;
-
-        // for (Shape shape : components) {
-        //     Dimension sz = shape.size();
-        //     if(qW == 1 || qH == 1) shape.setSize(Math.abs(sz.width + diffW), Math.abs(sz.height + diffH));
-        //     else shape.scale(qW, qH);
-        // }
-
-        // recalculateBounds();
+        recalculateBounds();
     }
 
     @Override
@@ -199,13 +178,7 @@ public class ShapeGroup extends ShapeAbstact
     }
 
     public boolean isEmpty() { return components.isEmpty(); }
-
-    private void onPositionUpdate(Point position)
-    {
-        this.position.x = Math.min(this.position.x, position.x);
-        this.position.y = Math.min(this.position.y, position.y);
-    }
-
+    
     private void recalculateBounds()
     {
         int minX, minY, maxX, maxY;
@@ -220,8 +193,8 @@ public class ShapeGroup extends ShapeAbstact
             minY = Math.min(minY, pos.y);
 
             Dimension sz = shape.size();
-            maxX = Math.max(maxX, pos.x + sz.width); 
-            maxY = Math.max(maxY, pos.y + sz.height);
+            maxX = (int)Math.max(maxX, pos.x + sz.width); 
+            maxY = (int)Math.max(maxY, pos.y + sz.height);
         }
 
         this.position = new Point(minX, minY);
@@ -293,7 +266,7 @@ public class ShapeGroup extends ShapeAbstact
             shape.drawSelection(g);
         }
 
-        g.drawRect(position.x, position.y, size.width, size.height);
+        g.drawRect(position.x, position.y, (int)size.width, (int)size.height);
     }
 
     @Override

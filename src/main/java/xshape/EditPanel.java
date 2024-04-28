@@ -1,24 +1,18 @@
 package xshape;
 
-import java.awt.BorderLayout;
-import java.awt.Checkbox;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
-import java.awt.Point;
-import java.util.Dictionary;
 import java.util.Hashtable;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicSliderUI.ScrollListener;
 
+import xshape.Model.Dimension;
 import xshape.Model.Shape;
 
 public class EditPanel extends JPanel
@@ -37,7 +31,7 @@ public class EditPanel extends JPanel
 
     public EditPanel(Shape shape, Whiteboard canvas)
     {
-        Dimension maxSize = canvas.getSize();
+        Dimension maxSize = new Dimension(canvas.getWidth(), canvas.getHeight());
         this.setLayout(new GridLayout(6, 0));
         
         lastsz = shape.size();//dbg
@@ -57,7 +51,7 @@ public class EditPanel extends JPanel
             @Override
             public void stateChanged(ChangeEvent e) 
             {
-                Dimension sz = new Dimension((int)widthSpinner.getValue(), (int)heightSpinner.getValue());//new Dimension(widthSlider.getValue(), heightSlider.getValue());
+                Dimension sz = new Dimension((double)widthSpinner.getValue(), (double)heightSpinner.getValue());//new Dimension(widthSlider.getValue(), heightSlider.getValue());
 
                 //if(lastsz != null) shape.setSize(lastsz.width, lastsz.height);
                 shape.setSize(sz.width, sz.height);
@@ -92,8 +86,8 @@ public class EditPanel extends JPanel
         };
 
 
-        posXSlider = buildSlider(0, maxSize.width, shape.position().x, sliderListener);
-        posYSlider = buildSlider(0, maxSize.height, shape.position().y, sliderListener);
+        posXSlider = buildSlider(0, (int)maxSize.width, shape.position().x, sliderListener);
+        posYSlider = buildSlider(0, (int)maxSize.height, shape.position().y, sliderListener);
 
         widthSpinner = new JSpinner(new SpinnerNumberModel(shape.size().width, 0, maxSize.width, 1));
         heightSpinner = new JSpinner(new SpinnerNumberModel(shape.size().height, 0, maxSize.height, 1));
@@ -134,10 +128,5 @@ public class EditPanel extends JPanel
         slider.setMajorTickSpacing(100);
         if(listener != null) slider.addChangeListener(listener);
         return slider;
-    }
-
-    public int[] result()//tmp deg, faire un objet dedié
-    {
-        return new int[]{posXSlider.getValue(), posYSlider.getValue(), (int)widthSpinner.getValue(), (int)heightSpinner.getValue()};
     }
 }

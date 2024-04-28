@@ -1,15 +1,12 @@
 package xshape;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.Icon;
 
+import xshape.Model.Dimension;
 import xshape.Model.Shape;
-import xshape.Model.ShapeAbstact;
 
 public class ShapeIcon implements Icon {
 
@@ -35,12 +32,12 @@ public class ShapeIcon implements Icon {
 
     @Override
     public int getIconWidth() {
-        return shape.size().width;
+        return (int)shape.size().width;
     }
 
     @Override
     public int getIconHeight() {
-        return shape.size().height;
+        return (int)shape.size().height;
     }
 
     public Shape getShape()

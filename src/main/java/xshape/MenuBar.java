@@ -5,20 +5,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.border.Border;
-
-import xshape.Model.Cercle;
-import xshape.Model.Polygon;
-import xshape.Model.Rectangle;
 import xshape.Model.Shape;
 import xshape.Save.JsontoShape;
 import xshape.Save.SaveToJson;
-import xshape.Save.ShapeSave;
 
 public class MenuBar extends JMenuBar {
     Whiteboard canvas;
@@ -72,7 +65,7 @@ public class MenuBar extends JMenuBar {
                         JOptionPane.OK_CANCEL_OPTION);
 
                 if (choice == JOptionPane.OK_OPTION) {
-                    int[] res = edit.result();
+                    //int[] res = edit.result();
                     // edit shape with result
                 }
 

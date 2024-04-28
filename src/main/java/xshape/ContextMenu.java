@@ -55,7 +55,7 @@ public class ContextMenu extends JPopupMenu
     
                     if(choice == JOptionPane.OK_OPTION)
                     {
-                        int[] res = edit.result();
+                        //int[] res = edit.result();
                         //edit shape with result
                     }
     
