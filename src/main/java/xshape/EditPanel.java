@@ -73,12 +73,8 @@ public class EditPanel extends JPanel
 
                 if(scale < 0.1 || 1.0/scale < 0.1) return;
 
-                System.out.println("revert:" + (double)(1.0/lastscale)/SCALE_MID);
-
                 if(lastscale != -1) shape.scale(1/lastscale);
                 shape.scale(scale);
-
-                System.out.println(scale);
 
                 lastscale = scale;
                 canvas.repaint();

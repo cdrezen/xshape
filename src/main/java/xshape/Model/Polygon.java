@@ -47,8 +47,8 @@ public class Polygon extends ShapeAbstact
 
     Rectangle calculateBounds() {
         //cf java.awt.Polygon
-        int boundsMaxX = Integer.MIN_VALUE;
-        int boundsMaxY = Integer.MIN_VALUE;
+        int boundsMaxX = 0;
+        int boundsMaxY = 0;
 
         for (int i = 0; i < nbSides; i++) {
             boundsMaxX = Math.max(boundsMaxX, xPoints[i]);
@@ -61,12 +61,26 @@ public class Polygon extends ShapeAbstact
 
 
     @Override
-    public void setSize(double width, double height) {
-        double minDim = Math.min(width, height);
-        this.sideLength = minDim / (2 * Math.tan(Math.PI / this.nbSides));
+    public void setSize(double width, double height) 
+    {
+        //find the dim with most change
+        double diffW = Math.abs(this.size.width - width);
+        double diffH = Math.abs(this.size.height - height);
+        double dim = diffW > diffH ? width : height;
+
+        this.sideLength = dim / (2.0 * Math.tan(Math.PI / this.nbSides));
         calculatePoints(nbSides, sideLength);
         Rectangle bounds = calculateBounds();
-        super.setSize(bounds.size.width, bounds.size.height);
+        //semble faire bug ?:
+        //this.size.width=bounds.size.width;
+        //this.size.height=bounds.size.height;
+        resetCenter();
+    }
+
+    @Override
+    public void scale(double scaleW, double scaleH) 
+    {
+        setSize(this.size.width * scaleW, this.size.height * scaleH);
     }
 
     @Override

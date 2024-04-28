@@ -178,7 +178,7 @@ public class ShapeGroup extends ShapeAbstact
     }
 
     public boolean isEmpty() { return components.isEmpty(); }
-    
+
     private void recalculateBounds()
     {
         int minX, minY, maxX, maxY;
