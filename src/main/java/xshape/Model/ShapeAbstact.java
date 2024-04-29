@@ -194,4 +194,8 @@ public abstract class ShapeAbstact implements Shape
         // TODO Auto-generated method stub
         return null;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

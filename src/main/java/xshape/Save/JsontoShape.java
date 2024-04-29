@@ -25,10 +25,16 @@ public class JsontoShape {
         return new String(bytes);
     }
 
-    public ArrayList<Shape> getShape(String filePathL) throws IOException {
+    public ArrayList<Shape> getShape(String filePathL){
         ArrayList<Shape> shapes = new ArrayList<>();
         Gson gson = new Gson();
-        jsonString = readFile(filePathL);
+        try {
+            jsonString = readFile(filePathL);
+        } catch (Exception e) {
+            System.out.println("Erreur lecture du fichier "+ filePathL);
+            return null;
+        }
+        
         TypeToken<ArrayList<ShapeSave>> typeToken = new TypeToken<ArrayList<ShapeSave>>() {
         };
         shapeSaves = gson.fromJson(jsonString, typeToken.getType());
@@ -36,14 +42,15 @@ public class JsontoShape {
             ShapeSave o = (ShapeSave) oj;
             shapes.add(convert(o));
         }
+        System.err.println("fin");
         return shapes;
     }
 
     private Shape convert(ShapeSave o){
         if (o.type.equals("Rectangle")) {
-            return (new Rectangle(o.position, o.size));
+            return (new Rectangle(o.position, o.size, o.getColor()));
         } else if (o.type.equals("Cercle")) {
-            return (new Cercle(o.position, o.size));
+            return (new Cercle(o.position, o.size, o.getColor()));
         } else if (o.type.equals("Groups")) {
             ShapeGroup g = new ShapeGroup(o.position.x,o.position.y,(int)o.size.width,(int)o.size.height);
             for(ShapeSave ss : o.shapes){
@@ -51,7 +58,7 @@ public class JsontoShape {
             }
             return g;
         } else {
-            return (new Polygon(o.position, o.nbSides, o.sideLength));
+            return (new Polygon(o.position, o.nbSides, o.sideLength, o.getColor()));
         }
     }
 

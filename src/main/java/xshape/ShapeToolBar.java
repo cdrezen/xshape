@@ -35,22 +35,21 @@ public class ShapeToolBar extends JToolBar
 
         buttons = new ArrayList<>();
         shapes = new ArrayList<>();
-
-        try {
-            JsontoShape jts = new JsontoShape();
-            shapes = jts.getShape("toolBar.json");
-            addAll(shapes);
-        } catch (Exception e) {
-            shapes = new ArrayList<>();
+        JsontoShape jts = new JsontoShape();
+        ArrayList<Shape> shapesfromJson = jts.getShape("toolBar.json");
+        if (shapesfromJson != null){
+            addAll(shapesfromJson);
+            shapesfromJson = null;
+        }
+        else{
+            System.out.println("Erreur restoration tool bar depuis backup");
+            
             ShapeFactory shapeFactory = new ShapeFactory();
             //bouttons avec shape comme icone
             this.add(shapeFactory.createCircle(0, 0, 50, 50));
             this.add(shapeFactory.createRectangle(0, 0, 50, 50));
             this.add(shapeFactory.createPolygon(0, 0, 5, 30));
-        }
-
-
-
+        }   
         JButton delButton = buildResButton("Delete.png", null);
         delButton.setTransferHandler(new DeleteShapeTransferHandler());
         this.add(delButton);
@@ -71,8 +70,8 @@ public class ShapeToolBar extends JToolBar
         this.add(btn, this.getComponentCount() - 1);//poubelle doit toujours etre en bas
     }
 
-    public void addAll(ArrayList<Shape> shapes){
-        for(Shape s: shapes){
+    public void addAll(ArrayList<Shape> list){
+        for(Shape s: list){
             add(s);
         }
     }

@@ -21,6 +21,7 @@ public interface Shape extends Composable, Prototypable
 
 	boolean contains(int x, int y);
 	void setColor(Color color);
+	Color getColor();
 
 	void draw(Graphics g);
 	void drawAt(Graphics g, int x, int y);
