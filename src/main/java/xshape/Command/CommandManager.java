@@ -53,8 +53,11 @@ public class CommandManager{ // Singleton, Caretaker, Invoker
             undoStack.push(memento);
             originator.restoreFromMemento(memento);
             Command c = (Command)originator.getState();
-            c.getCanvas().repaint();
+            // c.getCanvas().repaint();
+            // System.out.println(c.canvas.getSelection().getColor());
+            c.undo();
             System.out.println("undo Dans CommandManager");
+            
         }
     }
 

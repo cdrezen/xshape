@@ -15,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
+import xshape.Command.ColorCommand;
 import xshape.Command.CommandManager;
 import xshape.Model.Shape;
 import xshape.Model.ShapeAbstact;
@@ -153,6 +154,7 @@ public class MenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Undo");
             commandManager.undo();
+            // canvas.repaint();
         }
     };
 
@@ -173,8 +175,9 @@ public class MenuBar extends JMenuBar {
             Color color = selection.color;
             color = JColorChooser.showDialog(null, "Choose a color", color);
             ((JButton)e.getSource()).setBackground(color);
-            canvas._selectedShapes.setColor(color);
-            canvas.repaint();
+            commandManager.executeCommand(new ColorCommand(canvas, color));;
+            // canvas._selectedShapes.setColor(color);
+            // canvas.repaint();
         }
     };
 

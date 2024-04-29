@@ -2,12 +2,14 @@ package xshape.Command;
 
 import xshape.EditPanel;
 import xshape.MenuBar;
+import xshape.Model.Shape;
 import xshape.Canvas;
 
 public abstract class Command {
     Canvas canvas;
     EditPanel panel;
     MenuBar menu;
+    Shape oldShape;
     
     public Command(Canvas canvas) {
         this.canvas = canvas;

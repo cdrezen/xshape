@@ -6,6 +6,7 @@ import xshape.Canvas;
 
 public class MoveCommand extends Command {
     private int x, y;
+    int oldx, oldy;
 
     public MoveCommand(Canvas canvas, EditPanel panel, MenuBar menu) {
         super(canvas, panel, menu);
