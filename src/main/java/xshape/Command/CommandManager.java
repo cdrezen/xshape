@@ -2,7 +2,7 @@ package xshape.Command;
 
 import java.util.Stack;
 
-import xshape.Whiteboard;
+import xshape.Canvas;
 
 public class CommandManager{ // Singleton, Caretaker, Invoker
     private Originator originator;

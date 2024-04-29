@@ -13,9 +13,9 @@ import xshape.Model.Shape;
 
 public class ContextMenu extends JPopupMenu
 {
-    Whiteboard canvas;
+    Canvas canvas;
 
-    public ContextMenu(Whiteboard canvas) {
+    public ContextMenu(Canvas canvas) {
         this.canvas = canvas;
         this.add(createMenuItem("Delete", "Delete.png", delete));
         this.add(createMenuItem("Edit...", "PropertyPublic.png", edit));

@@ -2,11 +2,11 @@ package xshape.Command;
 
 import xshape.EditPanel;
 import xshape.MenuBar;
-import xshape.Whiteboard;
+import xshape.Canvas;
 
 public class SizeCommand extends Command {
 
-    public SizeCommand(Whiteboard canvas, EditPanel panel, MenuBar menu) {
+    public SizeCommand(Canvas canvas, EditPanel panel, MenuBar menu) {
         super(canvas, panel, menu);
         //TODO Auto-generated constructor stub
     }

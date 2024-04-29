@@ -16,10 +16,10 @@ import xshape.Save.JsontoShape;
 import xshape.Save.SaveToJson;
 
 public class MenuBar extends JMenuBar {
-    Whiteboard canvas;
+    Canvas canvas;
     CommandManager commandManager = CommandManager.getInstance();
 
-    public MenuBar(Whiteboard canvas) {
+    public MenuBar(Canvas canvas) {
         this.canvas = canvas;
         this.add(createMenuButton("OpenFile.png", open));
         this.add(createMenuButton("DocumentOK.png", save));

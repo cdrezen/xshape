@@ -26,7 +26,7 @@ public class App {
         };
         frame.addWindowListener(wa);
 
-        Whiteboard canvas = new Whiteboard();
+        Canvas canvas = new Canvas();
         canvas.setBackground(Color.WHITE);
         canvas.setPreferredSize(new Dimension(500, 500));
         frame.setLayout(new BorderLayout());
@@ -36,6 +36,8 @@ public class App {
 
         MenuBar menu = new MenuBar(canvas);
         frame.add(menu, BorderLayout.NORTH);
+
+        Editor editor = new Editor(canvas, toolBar, menu);//, null)
 
         setIcon(frame);
         frame.pack();

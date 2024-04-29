@@ -29,7 +29,7 @@ public class EditPanel extends JPanel
     Dimension lastsz = null;
     double lastscale = -1;
 
-    public EditPanel(Shape shape, Whiteboard canvas)
+    public EditPanel(Shape shape, Canvas canvas)
     {
         Dimension maxSize = new Dimension(canvas.getWidth(), canvas.getHeight());
         this.setLayout(new GridLayout(6, 0));

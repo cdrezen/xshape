@@ -2,16 +2,16 @@ package xshape.Command;
 
 import xshape.EditPanel;
 import xshape.MenuBar;
-import xshape.Whiteboard;
+import xshape.Canvas;
 
 public class MoveCommand extends Command {
     private int x, y;
 
-    public MoveCommand(Whiteboard canvas, EditPanel panel, MenuBar menu) {
+    public MoveCommand(Canvas canvas, EditPanel panel, MenuBar menu) {
         super(canvas, panel, menu);
     }
 
-    public MoveCommand(Whiteboard canvas, int x, int y) {
+    public MoveCommand(Canvas canvas, int x, int y) {
         super(canvas);
         this.x = x;
         this.y = y;

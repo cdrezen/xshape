@@ -2,18 +2,18 @@ package xshape.Command;
 
 import xshape.EditPanel;
 import xshape.MenuBar;
-import xshape.Whiteboard;
+import xshape.Canvas;
 
 public abstract class Command {
-    Whiteboard canvas;
+    Canvas canvas;
     EditPanel panel;
     MenuBar menu;
     
-    public Command(Whiteboard canvas) {
+    public Command(Canvas canvas) {
         this.canvas = canvas;
     }
 
-    public Command(Whiteboard canvas, EditPanel panel, MenuBar menu) {
+    public Command(Canvas canvas, EditPanel panel, MenuBar menu) {
         this.canvas = canvas;
         this.panel = panel;
         this.menu = menu;
@@ -23,7 +23,7 @@ public abstract class Command {
 
     abstract void execute();
 
-    public Whiteboard getCanvas() {
+    public Canvas getCanvas() {
         return canvas;
     }
 

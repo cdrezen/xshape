@@ -12,13 +12,13 @@ public class ShapeIcon implements Icon {
 
     private final Dimension MAX_DIM = new Dimension(32, 32);
     private Shape shape;
-    private Dimension oldSize = null;
+    private Shape original;
 
     public ShapeIcon(Shape shape) {
+        this.original = shape;
         this.shape = shape.clone();
         if(shape.size().width > MAX_DIM.width || shape.size().height > MAX_DIM.height)
         {
-            oldSize = shape.size();
             this.shape.setSize(MAX_DIM.width, MAX_DIM.height);//getIconWidth(), getIconHeight());
         }
     }
@@ -42,8 +42,8 @@ public class ShapeIcon implements Icon {
 
     public Shape getShape()
     {
-        Shape res = shape.clone();
-        if(oldSize != null) res.setSize(oldSize.width, oldSize.height);
-        return res;
+        //Shape res = shape.clone();
+        //if(oldSize != null) res.setSize(oldSize.width, oldSize.height);
+        return original;
     }
 }
