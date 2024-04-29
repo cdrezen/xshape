@@ -178,6 +178,11 @@ public class ShapeGroup extends ShapeAbstact
         return false;
     }
 
+    public boolean inBounds(int x, int y) 
+    {
+        return new Rectangle(position, size).contains(x, y);
+    }
+
     public boolean isEmpty() { return components.isEmpty(); }
 
     private void recalculateBounds()

@@ -95,10 +95,10 @@ public class Canvas extends JPanel
 
             mousePressPt = e.getPoint();//to define selection rect start pos
 
-            if (_selectedShapes == null)
-                _selectedShapes = _shapes.getShapesAt(e.getX(), e.getY());//select single shape
+            if (_selectedShapes == null) //allow directly dragging shape from a press
+                _selectedShapes = _shapes.getShapesAt(e.getX(), e.getY());
 
-            System.out.println("press: " + ((_selectedShapes == null) ? "un" : "") + "selected at:" + e.getX() + " " + e.getY());
+            //System.out.println("press: " + ((_selectedShapes == null) ? "un" : "") + "selected at:" + e.getX() + " " + e.getY());
 
             ((Canvas) e.getSource()).repaint();
         }
@@ -128,12 +128,12 @@ public class Canvas extends JPanel
                 _selectedShapes = _shapes.getShapesIn(selectionRect);
                 selectionRect = null;
             }
-            else // was dragging selection
+            else // was dragging the selection
             {
-                onDragShapeEnd(_selectedShapes);
+                onDragShapeEnd(_selectedShapes); //notify post-drag positioning state
             }
 
-            System.out.println("release: " + ((_selectedShapes == null) ? "un" : "") + "selected");
+            //System.out.println("release: " + ((_selectedShapes == null) ? "un" : "") + "selected");
 
             ((Canvas) e.getSource()).repaint();
         };
@@ -161,68 +161,45 @@ public class Canvas extends JPanel
                                                         Math.abs(e.getX() - mousePressPt.x),
                                                         Math.abs(e.getY() - mousePressPt.y));
                 }
-                else
+                else 
                 {
-                    onDragShapeStart(_selectedShapes);
+                    if (_selectedShapes.inBounds(e.getX(), e.getY()))
+                    {
+                        onDragShapeStart(_selectedShapes); //notify pre-drag positioning state
+                    }
+                    else
+                    {
+                        //don't allow draging shapes from anywhere
+                        dragging = false;
+                        _selectedShapes = null;
+                    }
                 }
             }
             else // still draging
             {
                 if(e.isControlDown())
                 {
+                    // prepare for transfer to toolbar 
                     TransferHandler handle = canvas.getTransferHandler();
                     handle.exportAsDrag(canvas, e, TransferHandler.COPY);
-                    return;
                 }
-
-                if(selectionRect != null)
+                else if (selectionRect != null) // click-drag selection
                 {
+                    //update selection rect
                     selectionRect.setPos(Math.min(e.getX(), mousePressPt.x), 
                                     Math.min(e.getY(), mousePressPt.y));
                     selectionRect.setSize(Math.abs(e.getX() - mousePressPt.x),
                                     Math.abs(e.getY() - mousePressPt.y));
                 }
+                else if (_selectedShapes != null) // click-drag positioning / drag the shapes
+                    _selectedShapes.setCenterToPos(e.getX(), e.getY());
 
-                if(_selectedShapes != null) _selectedShapes.setCenterToPos(e.getX(), e.getY());
             }
             
             canvas.repaint();
             
             //System.out.println("drag to: " + e.getX() + " " + e.getY());
-
-
-
-
-
-            // if (_selectedShapes == null)
-            // {
-            //     selectionRect = _factory.createRectangle(Math.min(e.getX(), mousePressPt.x), 
-            //                                             Math.min(e.getY(), mousePressPt.y),
-            //                                             Math.abs(e.getX() - mousePressPt.x),
-            //                                             Math.abs(e.getY() - mousePressPt.y));
-
-            //     canvas.repaint();
-            //     return;
-            // }
-
-            // if(e.isControlDown())
-            // {
-            //     TransferHandler handle = canvas.getTransferHandler();
-            //     handle.exportAsDrag(canvas, e, TransferHandler.COPY);
-            //     return;
-            // }
-
-            // //if(!_selectedShapes.contains(e.getX(), e.getY())) return;//prevent drag from anywhere
-
-            // // commandManager.executeCommand(new MoveCommand(canvas, e.getX(), e.getY()));
-            // _selectedShapes.setCenterToPos(e.getX(), e.getY());
-            // //_selectedShapes.setPos(e.getX(), e.getY());
-            
-            // System.out.println("drag to: " + e.getX() + " " + e.getY());
-            
-            // canvas.repaint();
         }
-
     };
 
     private void createScene() {
