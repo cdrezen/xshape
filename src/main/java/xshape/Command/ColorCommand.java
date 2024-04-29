@@ -13,21 +13,21 @@ public class ColorCommand extends Command {
     public ColorCommand(Canvas canvas, Color color) {
         super(canvas);
         oldColor = canvas.getSelection().getColor();
-        oldShape = canvas.getSelection();
+        selectedShape = canvas.getSelection();
         this.color = color;
 
     }
 
     @Override
     void undo() {
-        oldShape.setColor(oldColor);
+        selectedShape.setColor(oldColor);
         System.out.println("new" + color+ ", old :" + oldColor);
         canvas.repaint();
     }
 
     @Override
     void execute() {
-        canvas.getSelection().setColor(color);
+        selectedShape.setColor(color);
         canvas.repaint();
     }
     

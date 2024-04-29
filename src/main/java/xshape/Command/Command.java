@@ -9,7 +9,7 @@ public abstract class Command {
     Canvas canvas;
     EditPanel panel;
     MenuBar menu;
-    Shape oldShape;
+    Shape selectedShape;
     
     public Command(Canvas canvas) {
         this.canvas = canvas;
