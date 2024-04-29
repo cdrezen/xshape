@@ -9,11 +9,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import xshape.Command.CommandManager;
+import xshape.Command.DeleteCommand;
 import xshape.Model.Shape;
 
 public class ContextMenu extends JPopupMenu
 {
     Canvas canvas;
+    CommandManager commandManager;
 
     public ContextMenu(Canvas canvas) {
         this.canvas = canvas;
@@ -21,6 +24,7 @@ public class ContextMenu extends JPopupMenu
         this.add(createMenuItem("Edit...", "PropertyPublic.png", edit));
         this.add(createMenuItem("Group", "Composition.png", group));
         this.add(createMenuItem("Ungroup", "Ungroup.png", ungroup));
+        commandManager = commandManager.getInstance();
     }
 
     private JMenuItem createMenuItem(String text, String filename, ActionListener actionListener)
@@ -67,9 +71,10 @@ public class ContextMenu extends JPopupMenu
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            canvas._shapes.remove(canvas._selectedShapes.getChildren());
-            canvas._selectedShapes = null;
-            canvas.repaint();
+            // canvas._shapes.remove(canvas._selectedShapes.getChildren());
+            // canvas._selectedShapes = null;
+            // canvas.repaint();
+            commandManager.executeCommand(new DeleteCommand(canvas));
         };
     };
 

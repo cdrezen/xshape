@@ -10,7 +10,8 @@ public abstract class Command {
     EditPanel panel;
     MenuBar menu;
     Shape selectedShape;
-    
+    Shape shape;
+    Boolean first = true;
     public Command(Canvas canvas) {
         this.canvas = canvas;
     }

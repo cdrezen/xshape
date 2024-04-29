@@ -11,14 +11,19 @@ import javax.swing.TransferHandler;
 
 import xshape.ShapeIcon;
 import xshape.ShapeToolBar;
+import xshape.Command.CommandManager;
+import xshape.Command.addCommand;
 import xshape.Canvas;
 import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;
 
 public class ShapeTransferHandler extends TransferHandler {
 
+    CommandManager commandManager;
+
     @Override
     public boolean canImport(TransferSupport support) {
+        commandManager = commandManager.getInstance();
         Component component = support.getComponent();
         return (component instanceof Canvas && support.isDataFlavorSupported(ShapeTransferable.SHAPE_ICON_FLAVOR))
         || ((component instanceof ShapeToolBar || component instanceof JButton) && support.isDataFlavorSupported(ShapeTransferable.SHAPE_FLAVOR));
@@ -40,7 +45,8 @@ public class ShapeTransferHandler extends TransferHandler {
 
             //drop from JButton to Whiteboard
             if (component instanceof Canvas) {
-                ((Canvas)component).addShape(((Shape)value).clone());
+                // ((Canvas)component).addShape(((Shape)value).clone());
+                commandManager.executeCommand(new addCommand((Canvas)component, ((Shape)value).clone()));
                 return true;
             }
 

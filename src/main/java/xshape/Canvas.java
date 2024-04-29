@@ -272,4 +272,14 @@ public class Canvas extends JPanel
         if(_selectedShapes != null) _selectedShapes.drawSelection(g, true, Color.green, 0);
         if (selectionRect != null) selectionRect.drawSelection(g, false, Color.magenta, 0);
     }
+
+    public void nullSelect(){
+        _selectedShapes = null;
+    }
+
+    public void simpleAdd(Shape s){
+        _shapes.add(s);
+        // _selectedShapes = (ShapeGroup) s;
+        repaint();
+    }
 }
