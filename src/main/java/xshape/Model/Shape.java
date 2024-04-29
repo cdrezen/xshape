@@ -20,6 +20,7 @@ public interface Shape extends Composable, Prototypable
 	void setDegrees(int degrees);
 
 	boolean contains(int x, int y);
+	void setColor(Color color);
 
 	void draw(Graphics g);
 	void drawAt(Graphics g, int x, int y);

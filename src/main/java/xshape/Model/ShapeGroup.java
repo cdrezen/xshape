@@ -395,46 +395,12 @@ public class ShapeGroup extends ShapeAbstact
         this.remove(children[0]);
     }
 
-    // //group this inside this, need parent()?
-    // public ShapeGroup group()
-    // {
-    //     if(this.components.size() == 1) 
-    //     { 
-    //         Shape shape = this.components.get(0);
-    //         if(shape.getChildren() != null) ((ShapeGroup)shape).group(); 
-    //         return this; 
-    //     }
-    //     Shape group = this.clone();
-    //     this.components.clear();
-    //     this.add(group);
-    //     return this;
-    // }
-
-    // public ShapeGroup ungroup()
-    // {
-    //     ArrayList<Shape> toRemove = new ArrayList<>();
-    //     ArrayList<Shape> toAdd = new ArrayList<>();
-
-    //     for (Shape shape : components) {
-    //         Shape[] children = shape.getChildren();
-    //         if(children == null || children.length != 1) continue;
-    //         System.out.println("boop");
-
-    //         toRemove.add(shape);
-    //         for (Shape child : children) {
-    //             System.out.println("boop1");
-    //             toAdd.add(child);
-    //         }
-    //     }
-
-    //     for (Shape shape : toAdd) {
-    //         this.add(shape);
-    //     }
-
-    //     for (Shape shape : toRemove) {
-    //         this.remove(shape);
-    //     }
-
-    //     return this;
-    // }
+    @Override
+    public void setColor(Color color) {
+        // TODO Auto-generated method stub
+        for (Shape shape : components) {
+            shape.setColor(color);
+        }
+        this.color = color;
+    }
 }

@@ -1,17 +1,24 @@
 package xshape;
 
+import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 
 import xshape.Command.CommandManager;
 import xshape.Model.Shape;
+import xshape.Model.ShapeAbstact;
+import xshape.Model.ShapeGroup;
 import xshape.Save.JsontoShape;
 import xshape.Save.SaveToJson;
 
@@ -28,6 +35,7 @@ public class MenuBar extends JMenuBar {
         this.add(createMenuButton("PropertyPublic.png", edit));
         this.add(createMenuButton("Composition.png", group));
         this.add(createMenuButton("Ungroup.png", ungroup));
+        this.add(createColorButton(color));
     }
 
     private JButton createMenuButton(String filename) {
@@ -50,6 +58,22 @@ public class MenuBar extends JMenuBar {
         // Border emptyBorder = BorderFactory.createEmptyBorder(4, 4, 4 ,4);
         // .setBorder(emptyBorder);
         // .setBorderPainted(false);
+
+        button.setFocusable(false);
+
+        return button;
+    }
+
+    private JButton createColorButton(ActionListener actionListener) {
+
+        JButton button = new JButton();
+        if (actionListener != null)
+            button.addActionListener(actionListener);
+        ;
+        button.setBackground(ShapeAbstact.DEFAULT_COLOR);
+        button.setOpaque(true);
+        Border emptyBorder = BorderFactory.createEmptyBorder(10,10,10,10);
+        button.setBorder(emptyBorder);
 
         button.setFocusable(false);
 
@@ -132,6 +156,20 @@ public class MenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Redo");
             commandManager.redo();
+        }
+    };
+
+    ActionListener color = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ShapeGroup selection = canvas.getSelection();
+            if(selection == null) return;
+
+            Color color = selection.color;
+            Color newColor = JColorChooser.showDialog(null, "Choose a color", color);
+            ((JButton)e.getSource()).setBackground(newColor);
+            canvas._selectedShapes.setColor(newColor);
+            canvas.repaint();
         }
     };
 

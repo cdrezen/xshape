@@ -14,11 +14,13 @@ public abstract class ShapeAbstact implements Shape
     private final int DASH_LEN = 4;
     final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{DASH_LEN}, 0);
     final int DEFAULT_MARGIN = 2;
+    public static final Color DEFAULT_COLOR = Color.yellow;
+
 
     public Point position;
     public Dimension size;
     public Point center;
-    public Color color = Color.yellow;
+    public Color color = DEFAULT_COLOR;
     public Color selectionColor = Color.magenta;
     public int margin = DEFAULT_MARGIN;
     public int degrees = 0;
@@ -108,6 +110,11 @@ public abstract class ShapeAbstact implements Shape
     @Override
     public void rotate(int degrees) {
         this.degrees = (this.degrees + degrees) % 360;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
