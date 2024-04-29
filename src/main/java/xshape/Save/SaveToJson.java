@@ -44,8 +44,9 @@ public class SaveToJson {
             writer.write(jsonString);
             writer.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             System.out.println("Fail Writer Json ");
+            return;
         }
 
         System.out.println("Object saved to file: " + path);

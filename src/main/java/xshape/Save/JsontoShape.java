@@ -30,19 +30,18 @@ public class JsontoShape {
         Gson gson = new Gson();
         try {
             jsonString = readFile(filePathL);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Erreur lecture du fichier "+ filePathL);
             return null;
         }
         
-        TypeToken<ArrayList<ShapeSave>> typeToken = new TypeToken<ArrayList<ShapeSave>>() {
-        };
+        TypeToken<ArrayList<ShapeSave>> typeToken = new TypeToken<ArrayList<ShapeSave>>() {};
         shapeSaves = gson.fromJson(jsonString, typeToken.getType());
         for (Object oj : shapeSaves) {
             ShapeSave o = (ShapeSave) oj;
             shapes.add(convert(o));
         }
-        System.err.println("fin");
         return shapes;
     }
 

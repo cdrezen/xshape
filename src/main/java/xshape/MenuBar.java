@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
@@ -125,8 +127,15 @@ public class MenuBar extends JMenuBar {
     ActionListener save = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String filePath = "";
+            JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                filePath = selectedFile.getPath();
+            }
             SaveToJson saveToJson = new SaveToJson();
-            saveToJson.save(canvas.getShapeGroup());
+            saveToJson.save(canvas.getShapeGroup(),filePath);
         }
     };
 
@@ -136,7 +145,15 @@ public class MenuBar extends JMenuBar {
             ArrayList<Shape> shapes;
             JsontoShape j = new JsontoShape();
             try {
-                shapes = j.getShape("canvas.json");
+                String filePath = "";
+                JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    filePath = selectedFile.getPath();
+                }
+                shapes = j.getShape(filePath);
+                if (shapes==null) return;
                 canvas.removeAllShape();
                 for(Shape s : shapes){
                     canvas.addShapeFromJson(s);
