@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
+import xshape.Command.CommandManager;
+import xshape.Command.MoveCommand;
 import xshape.DragDrop.ShapeTransferHandler;
 import xshape.Model.Rectangle;
 import xshape.Model.Shape;
@@ -27,6 +29,7 @@ public class Whiteboard extends JPanel
     //Shape selectedShape = null;
     Rectangle selectionRect = null;
     Point mousePressPt;
+    CommandManager commandManager;
 
     public Whiteboard() {
         menu = new ContextMenu(this);
@@ -36,6 +39,7 @@ public class Whiteboard extends JPanel
         this.setTransferHandler(new ShapeTransferHandler());
         _factory = new ShapeFactory();
         createScene();
+        commandManager = commandManager.getInstance();
     }
 
     public ArrayList<Shape> getShapeGroup(){
@@ -114,6 +118,7 @@ public class Whiteboard extends JPanel
 
             //if(!_selectedShapes.contains(e.getX(), e.getY())) return;//prevent drag from anywhere
 
+            // commandManager.executeCommand(new MoveCommand(canvas, e.getX(), e.getY()));
             _selectedShapes.setCenterToPos(e.getX(), e.getY());
             //_selectedShapes.setPos(e.getX(), e.getY());
             

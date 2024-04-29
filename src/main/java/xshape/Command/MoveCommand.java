@@ -11,15 +11,15 @@ public class MoveCommand extends Command {
         super(canvas, panel, menu);
     }
 
-    public MoveCommand(Whiteboard canvas, EditPanel panel, MenuBar menu, int x, int y) {
-        super(canvas, panel, menu);
+    public MoveCommand(Whiteboard canvas, int x, int y) {
+        super(canvas);
         this.x = x;
         this.y = y;
     }
 
     @Override
     void undo() {
-        canvas.getSelection().setCenterToPos(-x,-y);
+
     }
 
     @Override

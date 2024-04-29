@@ -13,6 +13,7 @@ public class ShapeGroup extends ShapeAbstact
         super(position, size);
         this.components = new ArrayList<Shape>();
         this.selectionColor = Color.cyan;
+        this.name = "Groups";
     }
 
     public ShapeGroup(int x, int y, int width, int height) {

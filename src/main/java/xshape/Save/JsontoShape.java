@@ -12,6 +12,7 @@ import xshape.Model.Cercle;
 import xshape.Model.Polygon;
 import xshape.Model.Rectangle;
 import xshape.Model.Shape;
+import xshape.Model.ShapeGroup;
 
 public class JsontoShape {
     String filePath = "canvas.json";
@@ -33,15 +34,25 @@ public class JsontoShape {
         shapeSaves = gson.fromJson(jsonString, typeToken.getType());
         for (Object oj : shapeSaves) {
             ShapeSave o = (ShapeSave) oj;
-            if (o.type.equals("Rectangle")) {
-                shapes.add(new Rectangle(o.position, o.size));
-            } else if (o.type.equals("Cercle")) {
-                shapes.add(new Cercle(o.position, o.size));
-            } else {
-                shapes.add(new Polygon(o.position, o.nbSides, o.sideLength));
-            }
+            shapes.add(convert(o));
         }
         return shapes;
+    }
+
+    private Shape convert(ShapeSave o){
+        if (o.type.equals("Rectangle")) {
+            return (new Rectangle(o.position, o.size));
+        } else if (o.type.equals("Cercle")) {
+            return (new Cercle(o.position, o.size));
+        } else if (o.type.equals("Groups")) {
+            ShapeGroup g = new ShapeGroup(o.position.x,o.position.y,(int)o.size.width,(int)o.size.height);
+            for(ShapeSave ss : o.shapes){
+                g.add(convert(ss));
+            }
+            return g;
+        } else {
+            return (new Polygon(o.position, o.nbSides, o.sideLength));
+        }
     }
 
 }

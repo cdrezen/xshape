@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 
 import xshape.Model.Polygon;
+import xshape.Save.SaveToJson;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -14,8 +16,11 @@ public class App {
     public static void main(String[] args) 
     {
         JFrame frame = new JFrame("XShape Swing/AWT Rendering");
+        ShapeToolBar toolBar = new ShapeToolBar();
         WindowAdapter wa = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                SaveToJson stj = new SaveToJson();
+                stj.save(toolBar.getShapes(), "toolBar.json");
                 System.exit(0);
             }
         };
@@ -27,7 +32,6 @@ public class App {
         frame.setLayout(new BorderLayout());
         frame.getContentPane().add(canvas, BorderLayout.CENTER);
 
-        ShapeToolBar toolBar = new ShapeToolBar();
         frame.add(toolBar, BorderLayout.WEST);
 
         MenuBar menu = new MenuBar(canvas);

@@ -16,10 +16,12 @@ import xshape.DragDrop.DeleteShapeTransferHandler;
 import xshape.DragDrop.ShapeTransferHandler;
 import xshape.Model.Shape;
 import xshape.Model.ShapeFactory;
+import xshape.Save.JsontoShape;
 
 public class ShapeToolBar extends JToolBar
 {
     ArrayList<JButton> buttons;
+    ArrayList<Shape> shapes;
 
     public ShapeToolBar()
     {
@@ -29,14 +31,23 @@ public class ShapeToolBar extends JToolBar
 
         this.setLayout(new GridLayout(8, 1));
 
-        ShapeFactory shapeFactory = new ShapeFactory();
+        
 
         buttons = new ArrayList<>();
+        shapes = new ArrayList<>();
 
-        //bouttons avec shape comme icone
-        this.add(shapeFactory.createCircle(0, 0, 50, 50));
-        this.add(shapeFactory.createRectangle(0, 0, 50, 50));
-        this.add(shapeFactory.createPolygon(0, 0, 5, 30));
+        try {
+            JsontoShape jts = new JsontoShape();
+            shapes = jts.getShape("toolBar.json");
+            addAll(shapes);
+        } catch (Exception e) {
+            shapes = new ArrayList<>();
+            ShapeFactory shapeFactory = new ShapeFactory();
+            //bouttons avec shape comme icone
+            this.add(shapeFactory.createCircle(0, 0, 50, 50));
+            this.add(shapeFactory.createRectangle(0, 0, 50, 50));
+            this.add(shapeFactory.createPolygon(0, 0, 5, 30));
+        }
 
 
 
@@ -54,9 +65,20 @@ public class ShapeToolBar extends JToolBar
     public void add(Shape shape)
     {
         System.out.println("added button");
+        shapes.add(shape);
         JButton btn = buildShapeButton(shape);
         buttons.add(btn);
         this.add(btn, this.getComponentCount() - 1);//poubelle doit toujours etre en bas
+    }
+
+    public void addAll(ArrayList<Shape> shapes){
+        for(Shape s: shapes){
+            add(s);
+        }
+    }
+
+    public ArrayList<Shape> getShapes() {
+        return shapes;
     }
 
     public void remove(Shape shape)
@@ -77,6 +99,7 @@ public class ShapeToolBar extends JToolBar
 
         this.remove(foundBtn);
         buttons.remove(foundBtn);
+        shapes.remove(shape);
         this.revalidate();
         this.repaint();
     }

@@ -8,6 +8,10 @@ public abstract class Command {
     Whiteboard canvas;
     EditPanel panel;
     MenuBar menu;
+    
+    public Command(Whiteboard canvas) {
+        this.canvas = canvas;
+    }
 
     public Command(Whiteboard canvas, EditPanel panel, MenuBar menu) {
         this.canvas = canvas;
@@ -18,4 +22,9 @@ public abstract class Command {
     abstract void undo();
 
     abstract void execute();
+
+    public Whiteboard getCanvas() {
+        return canvas;
+    }
+
 }

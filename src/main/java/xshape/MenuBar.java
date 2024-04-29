@@ -9,19 +9,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+
+import xshape.Command.CommandManager;
 import xshape.Model.Shape;
 import xshape.Save.JsontoShape;
 import xshape.Save.SaveToJson;
 
 public class MenuBar extends JMenuBar {
     Whiteboard canvas;
+    CommandManager commandManager = CommandManager.getInstance();
 
     public MenuBar(Whiteboard canvas) {
         this.canvas = canvas;
         this.add(createMenuButton("OpenFile.png", open));
         this.add(createMenuButton("DocumentOK.png", save));
-        this.add(createMenuButton("Undo.png"));
-        this.add(createMenuButton("Redo.png"));
+        this.add(createMenuButton("Undo.png", undo));
+        this.add(createMenuButton("Redo.png", redo));
         this.add(createMenuButton("PropertyPublic.png", edit));
         this.add(createMenuButton("Composition.png", group));
         this.add(createMenuButton("Ungroup.png", ungroup));
@@ -115,4 +118,22 @@ public class MenuBar extends JMenuBar {
             
         }
     };
+
+    ActionListener undo = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Undo");
+            commandManager.undo();
+        }
+    };
+
+    ActionListener redo = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Redo");
+            commandManager.redo();
+        }
+    };
+
+
 }
