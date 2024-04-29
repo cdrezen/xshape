@@ -1,5 +1,6 @@
 package xshape.Model;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -15,6 +16,13 @@ public class Cercle extends ShapeAbstact {
     public Cercle(int x, int y, int width, int height) {
         this(new Point(x, y), new Dimension(width, height));
         name = "Cercle";
+    }
+
+    public Cercle(Point position, Dimension size, Color color) {
+        super(position, size);
+        this.margin = 3;
+        name = "Cercle";
+        this.color = color;
     }
 
     @Override
@@ -41,6 +49,6 @@ public class Cercle extends ShapeAbstact {
     
     @Override
     public Cercle clone(){
-        return new Cercle(new Point(position), new Dimension(size));
+        return new Cercle(new Point(position), new Dimension(size), color);
     }
 }

@@ -1,5 +1,6 @@
 package xshape.Model;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -22,6 +23,19 @@ public class Polygon extends ShapeAbstact
         this.size = bounds.size();
         this.margin = 3;
         this.name = "Polygon";
+    }
+
+    public Polygon(Point position, int nbSides, double sideLength, Color color) {
+        super(position, new Dimension((int)sideLength, (int)sideLength));
+        this.nbSides = nbSides;
+        this.sideLength = sideLength;
+
+        calculatePoints(nbSides, sideLength);
+        Rectangle bounds = calculateBounds();
+        this.size = bounds.size();
+        this.margin = 3;
+        this.name = "Polygon";
+        this.color = color;
     }
 
     private void calculatePoints(int nbSides, double sideLength)
@@ -119,7 +133,7 @@ public class Polygon extends ShapeAbstact
     @Override
     public Shape clone() {
         // TODO Auto-generated method stub
-        return new Polygon(new Point(position), nbSides, sideLength);
+        return new Polygon(new Point(position), nbSides, sideLength, color);
     }
 
     public int nbSides() {

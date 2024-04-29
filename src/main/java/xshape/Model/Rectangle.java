@@ -1,5 +1,6 @@
 package xshape.Model;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -14,6 +15,12 @@ public class Rectangle extends ShapeAbstact
     public Rectangle(int x, int y, int width, int height) {
         this(new Point(x, y), new Dimension(width, height));
         name = "Rectangle";
+    }
+
+    public Rectangle(Point position, Dimension size, Color color) {
+        super(position, size);
+        name = "Rectangle";
+        this.color = color;
     }
 
     @Override
@@ -59,6 +66,6 @@ public class Rectangle extends ShapeAbstact
     public Shape clone()
     {
         System.err.println("rect clone");
-        return new Rectangle(new Point(position), new Dimension(size));
+        return new Rectangle(new Point(position), new Dimension(size), color);
     }
 }
