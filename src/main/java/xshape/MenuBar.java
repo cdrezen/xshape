@@ -35,7 +35,10 @@ public class MenuBar extends JMenuBar {
         this.add(createMenuButton("PropertyPublic.png", edit));
         this.add(createMenuButton("Composition.png", group));
         this.add(createMenuButton("Ungroup.png", ungroup));
-        this.add(createColorButton(color));
+        
+        JButton colorBtn = createMenuButton("ColorPalette.png", color);
+        colorBtn.setBackground(ShapeAbstact.DEFAULT_COLOR);
+        this.add(colorBtn);
     }
 
     private JButton createMenuButton(String filename) {
@@ -64,6 +67,7 @@ public class MenuBar extends JMenuBar {
         return button;
     }
 
+    @Deprecated
     private JButton createColorButton(ActionListener actionListener) {
 
         JButton button = new JButton();
@@ -72,7 +76,8 @@ public class MenuBar extends JMenuBar {
         ;
         button.setBackground(ShapeAbstact.DEFAULT_COLOR);
         button.setOpaque(true);
-        Border emptyBorder = BorderFactory.createEmptyBorder(10,10,10,10);
+        Border emptyBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK), 
+                                                                BorderFactory.createEmptyBorder(10,10,10,12));
         button.setBorder(emptyBorder);
 
         button.setFocusable(false);
@@ -166,9 +171,9 @@ public class MenuBar extends JMenuBar {
             if(selection == null) return;
 
             Color color = selection.color;
-            Color newColor = JColorChooser.showDialog(null, "Choose a color", color);
-            ((JButton)e.getSource()).setBackground(newColor);
-            canvas._selectedShapes.setColor(newColor);
+            color = JColorChooser.showDialog(null, "Choose a color", color);
+            ((JButton)e.getSource()).setBackground(color);
+            canvas._selectedShapes.setColor(color);
             canvas.repaint();
         }
     };
