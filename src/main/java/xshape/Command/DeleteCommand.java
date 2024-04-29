@@ -30,9 +30,16 @@ public class DeleteCommand extends Command {
 
     @Override
     void execute() {
-        canvasShape.remove(getChildrenShape);
-        canvas.nullSelect();
+        if(first){
+            first = false;
+            canvasShape.remove(getChildrenShape);
+            canvas.nullSelect();
+            canvas.repaint();
+            return;
+        }
+        canvas.removeShape(selectedShape);
         canvas.repaint();
+        
         // canvas._shapes.remove(canvas._selectedShapes.getChildren());
         // canvas._selectedShapes = null;
         // canvas.repaint();
