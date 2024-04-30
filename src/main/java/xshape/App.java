@@ -10,11 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
-
 public class App {
 
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         JFrame frame = new JFrame("XShape Swing/AWT Rendering");
         ShapeToolBar toolBar = new ShapeToolBar();
         WindowAdapter wa = new WindowAdapter() {
@@ -37,24 +35,24 @@ public class App {
         MenuBar menu = new MenuBar(canvas);
         frame.add(menu, BorderLayout.NORTH);
 
-        Editor editor = new Editor(canvas, toolBar, menu);//, null)
+        Editor editor = new Editor(canvas, toolBar, menu);// , null)
 
         setIcon(frame);
         frame.pack();
         frame.setVisible(true);
     }
 
-    static void setIcon(Frame frame)
-    {
+    static void setIcon(Frame frame) {
         final Polygon hex = new Polygon(new Point(0, 0), 5, 32);
-        final Taskbar taskbar = Taskbar.getTaskbar();
+        // final Taskbar taskbar = Taskbar.getTaskbar();
         try {
-            BufferedImage bi = new BufferedImage((int)hex.size.width, (int)hex.size.height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = (Graphics2D)bi.getGraphics();
+            BufferedImage bi = new BufferedImage((int) hex.size.width, (int) hex.size.height,
+                    BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = (Graphics2D) bi.getGraphics();
             hex.draw(g2d);
 
             frame.setIconImage(bi);
-            taskbar.setIconImage(bi);
+            // taskbar.setIconImage(bi);
         } catch (Exception e) {
             // TODO: handle exception
         }
