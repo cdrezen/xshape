@@ -3,3 +3,4 @@ target/*
 *.class
 Test.java
 *.json
+rendu/*
