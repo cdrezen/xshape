@@ -44,7 +44,6 @@ public class App {
 
     static void setIcon(Frame frame) {
         final Polygon hex = new Polygon(new Point(0, 0), 5, 32);
-        // final Taskbar taskbar = Taskbar.getTaskbar();
         try {
             BufferedImage bi = new BufferedImage((int) hex.size.width, (int) hex.size.height,
                     BufferedImage.TYPE_INT_ARGB);
@@ -52,7 +51,7 @@ public class App {
             hex.draw(g2d);
 
             frame.setIconImage(bi);
-            // taskbar.setIconImage(bi);
+            // Taskbar.getTaskbar().setIconImage(bi);
         } catch (Exception e) {
             // TODO: handle exception
         }

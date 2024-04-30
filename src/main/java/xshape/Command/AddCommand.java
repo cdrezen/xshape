@@ -4,11 +4,12 @@ import xshape.Canvas;
 import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;
 
-public class addCommand extends Command {
+public class AddCommand extends Command {
     Shape shape;
     ShapeGroup shapeGroup;
     Shape newShape;
-    public addCommand(Canvas canvas, Shape s) {
+
+    public AddCommand(Canvas canvas, Shape s) {
         super(canvas);
         shape = s;
     }
@@ -20,7 +21,7 @@ public class addCommand extends Command {
 
     @Override
     void execute() {
-        if(first){
+        if (first) {
             first = false;
             canvas.addShape(shape);
             shapeGroup = canvas.getShapes();
@@ -29,5 +30,5 @@ public class addCommand extends Command {
         }
         canvas.simpleAdd(newShape);
     }
-    
+
 }

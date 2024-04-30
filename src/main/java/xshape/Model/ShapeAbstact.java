@@ -9,13 +9,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-public abstract class ShapeAbstact implements Shape
-{
+public abstract class ShapeAbstact implements Shape {
     private final int DASH_LEN = 4;
-    final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{DASH_LEN}, 0);
+    final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { DASH_LEN },
+            0);
     final int DEFAULT_MARGIN = 2;
-    public static final Color DEFAULT_COLOR = Color.yellow;
-
+    public static final Color DEFAULT_COLOR = Color.ORANGE;
 
     public Point position;
     public Dimension size;
@@ -25,19 +24,18 @@ public abstract class ShapeAbstact implements Shape
     public int margin = DEFAULT_MARGIN;
     public int degrees = 0;
     public String name;
-    public ShapeAbstact(Point position, Dimension size)
-    {
+
+    public ShapeAbstact(Point position, Dimension size) {
         this.position = position;
         this.size = size;
         resetCenter();
     }
 
-    public ShapeAbstact(int x, int y, int width, int height)
-    {
+    public ShapeAbstact(int x, int y, int width, int height) {
         this(new Point(x, y), new Dimension(width, height));
     }
 
-    public String name(){
+    public String name() {
         return name;
     }
 
@@ -65,15 +63,14 @@ public abstract class ShapeAbstact implements Shape
 
     @Override
     public void resetCenter() {
-        setCenter(new Point((int)(position.x + (this.size.width / 2.0)),
-                            (int)(position.y + (this.size.height / 2.0))));
+        setCenter(new Point((int) (position.x + (this.size.width / 2.0)),
+                (int) (position.y + (this.size.height / 2.0))));
     }
 
     @Override
-    public void setCenterToPos(int posX, int posY)
-    {
-        this.position.x = (int)(posX - (this.size.width / 2.0));
-        this.position.y = (int)(posY - (this.size.height / 2.0));
+    public void setCenterToPos(int posX, int posY) {
+        this.position.x = (int) (posX - (this.size.width / 2.0));
+        this.position.y = (int) (posY - (this.size.height / 2.0));
     }
 
     @Override
@@ -83,15 +80,13 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void scale(double scale) 
-    {
+    public void scale(double scale) {
         this.scale(scale, scale);
     }
 
     @Override
-    public void scale(double scaleW, double scaleH) 
-    {
-        this.size.width *= scaleW; 
+    public void scale(double scaleW, double scaleH) {
+        this.size.width *= scaleW;
         this.size.height *= scaleH;
         resetCenter();
     }
@@ -118,45 +113,44 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void draw(Graphics g) 
-    {
-        Graphics2D g2d = (Graphics2D)g;
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
         Color oldColor = g2d.getColor();
         g2d.setColor(this.color);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         AffineTransform oldTransform = null;
-        if(degrees != 0)
-        {
+        if (degrees != 0) {
             oldTransform = g2d.getTransform();
             g2d.rotate(Math.toRadians(degrees), center.x, center.y);
         }
 
         drawAt(g2d, this.position.x, this.position.y);
 
-        if(degrees != 0) g2d.setTransform(oldTransform);
+        if (degrees != 0)
+            g2d.setTransform(oldTransform);
         g2d.setColor(oldColor);
     }
 
     @Override
-    public void drawSelection(Graphics g) 
-    {
+    public void drawSelection(Graphics g) {
         drawSelection(g, true, selectionColor, DEFAULT_MARGIN);
     }
-    
-    public void drawSelection(Graphics g, boolean dashed, Color color, int margin) 
-    {
-        Graphics2D g2d = (Graphics2D)g;
+
+    public void drawSelection(Graphics g, boolean dashed, Color color, int margin) {
+        Graphics2D g2d = (Graphics2D) g;
         Color oldColor = g2d.getColor();
         Stroke oldStroke = g2d.getStroke();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(color);
-        if(dashed) g2d.setStroke(DASHED);
-        
+        if (dashed)
+            g2d.setStroke(DASHED);
+
         drawSelection(g, margin);
 
-        if(dashed) g2d.setStroke(oldStroke);
+        if (dashed)
+            g2d.setStroke(oldStroke);
         g2d.setColor(oldColor);
     }
 
@@ -172,7 +166,7 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void add(Shape ... shapes) {
+    public void add(Shape... shapes) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
@@ -184,7 +178,7 @@ public abstract class ShapeAbstact implements Shape
     }
 
     @Override
-    public void remove(Shape ... shapes) {
+    public void remove(Shape... shapes) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
