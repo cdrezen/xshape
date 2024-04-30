@@ -403,4 +403,11 @@ public class ShapeGroup extends ShapeAbstact
         }
         this.color = color;
     }
+
+    public void setPosTest(int x, int y){
+        for (Shape shape : components) {
+            shape.setPosTest(x,y);
+        }
+        
+    }
 }

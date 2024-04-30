@@ -143,5 +143,7 @@ public class Polygon extends ShapeAbstact
     public double sideLength() {
         return sideLength;
     }
-    
+    public void setPosTest(int x, int y){
+        super.setPos(x,y);
+    }
 }

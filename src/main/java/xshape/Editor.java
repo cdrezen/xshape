@@ -35,10 +35,10 @@ public class Editor implements CanvasObserver
     }
 
     @Override
-    public void onDragShapeEnd(Canvas canvas, ShapeGroup dragedShapes) {
+    public void onDragShapeEnd(Canvas canvas, ShapeGroup dragedShapes) { // update()
         // TODO Auto-generated method stub
         System.out.printf("shape(s) drag end (nb:%d) %s\n", dragedShapes.getChildren().length, dragedShapes.position().toString());
-        commandManager.executeCommand(new MoveCommand(canvas, dragStart,  new Point(dragedShapes.position())));
+        // commandManager.executeCommand(new MoveCommand(canvas, dragStart,  new Point(dragedShapes.position())));
     }
 
     @Override

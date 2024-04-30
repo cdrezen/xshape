@@ -68,4 +68,8 @@ public class Rectangle extends ShapeAbstact
         System.err.println("rect clone");
         return new Rectangle(new Point(position), new Dimension(size), color);
     }
+
+    public void setPosTest(int x, int y){
+        super.setPos(x,y);
+    }
 }

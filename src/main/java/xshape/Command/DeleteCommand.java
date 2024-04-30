@@ -4,6 +4,7 @@ import javax.lang.model.util.Elements.Origin;
 
 import xshape.Canvas;
 import xshape.Model.Shape;
+import xshape.Model.ShapeGroup;
 
 public class DeleteCommand extends Command {
 
@@ -22,27 +23,42 @@ public class DeleteCommand extends Command {
         // m1 = originator.createMemento();
     }
 
-    @Override
-    void undo() {
-        canvas.simpleAdd(selectedShape);
-        canvas.repaint();
-    }
+    // @Override
+    // void undo() {
+    //     canvas.simpleAdd(selectedShape);
+    //     canvas.repaint();
+    // }
+
+    // @Override
+    // void execute() {
+    //     if(first){
+    //         first = false;
+    //         canvasShape.remove(getChildrenShape);
+    //         canvas.nullSelect();
+    //         canvas.repaint();
+    //         return;
+    //     }
+    //     canvas.removeShape(selectedShape);
+    //     canvas.repaint();
+        
+    //     // canvas._shapes.remove(canvas._selectedShapes.getChildren());
+    //     // canvas._selectedShapes = null;
+    //     // canvas.repaint();
+    // }
 
     @Override
     void execute() {
-        if(first){
+        if (first) {
             first = false;
             canvasShape.remove(getChildrenShape);
             canvas.nullSelect();
+            shapeChanged = (ShapeGroup) canvas.getShapes().clone();
             canvas.repaint();
-            return;
+        }else{
+            canvas.set_shapes(shapeChanged);
+            canvas.nullSelect();
+            canvas.repaint();
         }
-        canvas.removeShape(selectedShape);
-        canvas.repaint();
-        
-        // canvas._shapes.remove(canvas._selectedShapes.getChildren());
-        // canvas._selectedShapes = null;
-        // canvas.repaint();
     }
     
 }

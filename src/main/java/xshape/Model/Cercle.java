@@ -51,4 +51,8 @@ public class Cercle extends ShapeAbstact {
     public Cercle clone(){
         return new Cercle(new Point(position), new Dimension(size), color);
     }
+
+    public void setPosTest(int x, int y){
+        super.setPos(x,y);
+    }
 }

@@ -15,20 +15,16 @@ public class AddCommand extends Command {
     }
 
     @Override
-    void undo() {
-        canvas.removeShape(shape);
-    }
-
-    @Override
     void execute() {
         if (first) {
             first = false;
             canvas.addShape(shape);
-            shapeGroup = canvas.getShapes();
-            newShape = (shapeGroup.getShapeGroup().get(shapeGroup.getShapeGroup().size() - 1));
-            return;
+            shapeChanged = (ShapeGroup) canvas.getShapes().clone();
+            canvas.repaint();
+        }else{
+            canvas.set_shapes(shapeChanged);
+            canvas.repaint();
         }
-        canvas.simpleAdd(newShape);
     }
 
 }

@@ -30,4 +30,5 @@ public interface Shape extends Composable, Prototypable
 	void drawSelection(Graphics g, boolean dashed, Color color, int margin);
 
 	String name();
+    void setPosTest(int x, int y);
 }
