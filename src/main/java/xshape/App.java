@@ -42,7 +42,11 @@ public class App {
         frame.setVisible(true);
     }
 
-    static void setIcon(Frame frame) {
+    static void setIcon(Frame frame) 
+    {  
+        String osName = System.getProperty("os.name").toLowerCase();
+        if(!osName.contains("win") && !osName.contains("mac")) return;// changer l'icon de cet façon ne fonction pas sur linux
+
         final Polygon hex = new Polygon(new Point(0, 0), 5, 32);
         try {
             BufferedImage bi = new BufferedImage((int) hex.size.width, (int) hex.size.height,
@@ -51,9 +55,9 @@ public class App {
             hex.draw(g2d);
 
             frame.setIconImage(bi);
-            // Taskbar.getTaskbar().setIconImage(bi);
+            Taskbar.getTaskbar().setIconImage(bi);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
     }
 }
