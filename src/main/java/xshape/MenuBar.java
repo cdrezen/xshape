@@ -19,6 +19,7 @@ import javax.swing.border.Border;
 
 import xshape.Command.ColorCommand;
 import xshape.Command.CommandManager;
+import xshape.Command.ScaleSizeMoveCommand;
 import xshape.Model.Shape;
 import xshape.Model.ShapeAbstact;
 import xshape.Model.ShapeGroup;
@@ -92,6 +93,8 @@ public class MenuBar extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             Shape selectedShape = canvas.getSelection();
+            ScaleSizeMoveCommand c = new ScaleSizeMoveCommand(canvas);
+            commandManager.executeCommand(new ScaleSizeMoveCommand(canvas));
             if (selectedShape != null) {
                 EditPanel edit = new EditPanel(selectedShape, canvas);
                 int choice = JOptionPane.showConfirmDialog(getParent(),
@@ -100,8 +103,7 @@ public class MenuBar extends JMenuBar {
                         JOptionPane.OK_CANCEL_OPTION);
 
                 if (choice == JOptionPane.OK_OPTION) {
-                    //int[] res = edit.result();
-                    // edit shape with result
+                    commandManager.executeCommand(c);
                 }
 
             }

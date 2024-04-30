@@ -25,7 +25,7 @@ public class MoveCommand extends Command {
 
     public MoveCommand(Canvas canvas) {
         super(canvas);
-        this.selectedShape = canvas.getSelection();
+        // this.selectedShape = canvas.getSelection();
         // this.x = x;
         // this.y = y;
     }
