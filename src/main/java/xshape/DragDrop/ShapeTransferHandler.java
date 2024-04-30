@@ -12,7 +12,7 @@ import javax.swing.TransferHandler;
 import xshape.ShapeIcon;
 import xshape.ShapeToolBar;
 import xshape.Command.CommandManager;
-import xshape.Command.addCommand;
+import xshape.Command.AddCommand;
 import xshape.Canvas;
 import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;
@@ -46,7 +46,7 @@ public class ShapeTransferHandler extends TransferHandler {
             //drop from JButton to Whiteboard
             if (component instanceof Canvas) {
                 // ((Canvas)component).addShape(((Shape)value).clone());
-                commandManager.executeCommand(new addCommand((Canvas)component, ((Shape)value).clone()));
+                commandManager.executeCommand(new AddCommand((Canvas)component, ((Shape)value).clone()));
                 return true;
             }
 
