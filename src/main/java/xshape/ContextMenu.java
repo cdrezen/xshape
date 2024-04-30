@@ -11,6 +11,7 @@ import javax.swing.JPopupMenu;
 
 import xshape.Command.CommandManager;
 import xshape.Command.DeleteCommand;
+import xshape.Command.ScaleSizeMoveCommand;
 import xshape.Model.Shape;
 
 public class ContextMenu extends JPopupMenu
@@ -48,6 +49,7 @@ public class ContextMenu extends JPopupMenu
     ActionListener edit = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ScaleSizeMoveCommand c = new ScaleSizeMoveCommand(canvas);
                 Shape selectedShape = canvas.getSelection();
                 if(selectedShape != null)
                 {
@@ -59,8 +61,7 @@ public class ContextMenu extends JPopupMenu
     
                     if(choice == JOptionPane.OK_OPTION)
                     {
-                        //int[] res = edit.result();
-                        //edit shape with result
+                        commandManager.executeCommand(c);
                     }
     
                 }

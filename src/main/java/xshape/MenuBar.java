@@ -94,7 +94,7 @@ public class MenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent e) {
             Shape selectedShape = canvas.getSelection();
             ScaleSizeMoveCommand c = new ScaleSizeMoveCommand(canvas);
-            commandManager.executeCommand(new ScaleSizeMoveCommand(canvas));
+            // commandManager.executeCommand(new ScaleSizeMoveCommand(canvas));
             if (selectedShape != null) {
                 EditPanel edit = new EditPanel(selectedShape, canvas);
                 int choice = JOptionPane.showConfirmDialog(getParent(),

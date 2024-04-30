@@ -3,7 +3,6 @@ package xshape.Command;
 import java.awt.Color;
 
 import xshape.Canvas;
-import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;
 
 public class ColorCommand extends Command {
