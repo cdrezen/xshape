@@ -84,6 +84,7 @@ public class Canvas extends JPanel {
             if (e.isPopupTrigger()) {
                 doPop(e);
                 onDoPopMenu(menu);
+                return;
             } else if (menu.isVisible())
                 return;
             //
@@ -108,6 +109,7 @@ public class Canvas extends JPanel {
             if (e.isPopupTrigger()) {
                 doPop(e);
                 onDoPopMenu(menu);
+                return;
             } else if (menu.isVisible())
                 return;
             //
