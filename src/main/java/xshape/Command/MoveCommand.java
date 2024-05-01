@@ -1,13 +1,7 @@
 package xshape.Command;
 
-import xshape.EditPanel;
-import xshape.MenuBar;
-import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;
-
-import java.awt.Graphics;
 import java.awt.Point;
-
 import xshape.Canvas;
 
 public class MoveCommand extends Command {

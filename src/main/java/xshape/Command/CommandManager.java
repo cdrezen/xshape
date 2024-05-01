@@ -2,8 +2,6 @@ package xshape.Command;
 
 import java.util.Stack;
 
-import xshape.Canvas;
-
 public class CommandManager { // Singleton, Caretaker, Invoker
     // private Originator originator;
     // private Memento memento;

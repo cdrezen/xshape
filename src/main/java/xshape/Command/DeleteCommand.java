@@ -1,7 +1,5 @@
 package xshape.Command;
 
-import javax.lang.model.util.Elements.Origin;
-
 import xshape.Canvas;
 import xshape.Model.Shape;
 import xshape.Model.ShapeGroup;

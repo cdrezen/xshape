@@ -1,6 +1,5 @@
 package xshape;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -13,10 +12,8 @@ import xshape.Model.Cercle;
 import xshape.Model.Dimension;
 import xshape.Model.Polygon;
 import xshape.Model.Rectangle;
-import xshape.Model.Shape;
 import xshape.Model.ShapeAbstact;
 import xshape.Model.ShapeGroup;
-import xshape.Save.JsontoShape;
 import xshape.Save.SaveToJson;
 
 import java.awt.Color;
@@ -35,7 +32,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
-import javax.sound.midi.Patch;
 
 /**
  * Unit test for simple App.
